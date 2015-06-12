@@ -106,7 +106,7 @@ module.exports.connections = {
   },
 
   productionPosgrest: {
-  adapter: 'sails-mongo',
+  adapter: 'sails-postgresql',
   url: process.env.DATABASE_URL
 }
 
