@@ -103,7 +103,12 @@ module.exports.connections = {
     database: '',
     pool: false,
     ssl: true
-  }
+  },
+
+  productionPosgrest: {
+  adapter: 'sails-mongo',
+  url: process.env.DATABASE_URL
+}
 
 
   /***************************************************************************
