@@ -63,14 +63,19 @@ module.exports.connections = {
   * Run: npm install sails-mongo                                             *
   *                                                                          *
   ***************************************************************************/
-  someMongodbServer: {
+  mongoLocal: {
     adapter: 'sails-mongo',
     host: 'localhost',
     port: 27017,
     // user: 'username',
     // password: 'password',
-    // database: 'your_mongo_db_name_here'
+    database: 'prueba'
   },
+
+  mongoProduction: {
+  adapter: 'sails-mongo',
+  url: 'mongodb://jhonny111s:chicos12@ds043962.mongolab.com:43962/eco'
+},
 
   /***************************************************************************
   *                                                                          *
@@ -105,7 +110,7 @@ module.exports.connections = {
     ssl: true
   },
 
-  productionPosgrest: {
+  posgrestProduction: {
   adapter: 'sails-postgresql',
   url: process.env.HEROKU_POSTGRESQL_BROWN_URL,
   ssl: true

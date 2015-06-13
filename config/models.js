@@ -41,10 +41,11 @@ module.exports.models = {
   * migrate: 'safe', doesn't do anything on sails lift- for use in production.                *
   *                                                                                           *
   *********************************************************************************************/
-    migrate    : 'safe',             //safe - alter  - drop  
-    connection : 'posgrestLocal',   //postgresLocal, postgresRemote
+    migrate    : 'alter',             //safe - alter  - drop  
+    //connection : 'posgrestLocal',   //postgresLocal, postgresRemote
+    connection : 'mongoProduction',
     //connection : 'productionPosgrest',
-    schema     : false,             // habilita el uso de esquemas en DB
+    //schema     : false,             // habilita el uso de esquemas en DB
 
     /* 
     Por defecto sails busca y crea con estos campos, asi que es bueno deshabilitarnos 

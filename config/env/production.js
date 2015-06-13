@@ -17,10 +17,10 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-   //models: {
-   // migrate: 'alter',
-   // connection: 'productionPosgrest'
-   //},
+   models: {
+   migrate: 'alter',
+   connection: 'mongoProduction'
+   },
 
   /***************************************************************************
    * Set the port in the production environment to 80                        *

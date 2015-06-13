@@ -7,7 +7,7 @@
 
 module.exports = {
 
-  connection : 'posgrestLocal',
+  //connection : 'posgrestLocal',
   tableName       : 'user',
 
 

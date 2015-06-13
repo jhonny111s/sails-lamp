@@ -69,4 +69,9 @@ module.exports.routes = {
     action    : 'create'
   },
 
+  'get /user/hi': {
+    controller: 'UserController',
+    action    : 'hi'
+  },
+
 };
