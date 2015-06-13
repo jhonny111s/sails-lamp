@@ -74,7 +74,8 @@ module.exports.connections = {
 
   mongoProduction: {
   adapter: 'sails-mongo',
-  url: process.env.MONGOLAB_URI
+  url: 'mongodb://heroku_3kx37dqc:e6a1pr1mguni0a'
+  //'mongodb://admin:admin@localhost:27017/prueba'
 },
 
   /***************************************************************************
