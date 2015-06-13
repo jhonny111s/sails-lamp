@@ -18,7 +18,8 @@ module.exports = {
    ***************************************************************************/
 
    models: {
-     connection: 'productionPosgrest'
+    migrate: 'alter',
+    connection: 'postgres://xffpyxthfrujmb:77MrQ1sw-Fp'
    },
 
   /***************************************************************************
