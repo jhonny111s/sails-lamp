@@ -107,8 +107,10 @@ module.exports.connections = {
 
   productionPosgrest: {
   adapter: 'sails-postgresql',
-  url: 'postgres://mtxvmpaxolmzio:8_xOUB',
-  ssl: true,
+  url: 'HEROKU_POSTGRESQL_BROWN_URL',
+  ssl: true
+
+},
 
 
   /***************************************************************************
