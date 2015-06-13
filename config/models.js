@@ -43,7 +43,8 @@ module.exports.models = {
   *********************************************************************************************/
     //adapter    : 'sails-postgresql', // adaptador que se agrego en el package
     migrate    : 'alter',             //safe - alter  - drop  
-    connection : 'posgrestLocal',   //postgresLocal, postgresRemote
+    //connection : 'posgrestLocal',   //postgresLocal, postgresRemote
+    connection : 'productionPosgrest',
     schema     : false,             // habilita el uso de esquemas en DB
 
     /* 

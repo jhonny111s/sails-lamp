@@ -107,8 +107,8 @@ module.exports.connections = {
 
   productionPosgrest: {
   adapter: 'sails-postgresql',
-  url: process.env.postgres://mtxvmpaxolmzio:8_xOUBV
-}
+  url: 'postgres://mtxvmpaxolmzio:8_xOUB',
+  ssl: true,
 
 
   /***************************************************************************
