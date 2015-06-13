@@ -41,10 +41,9 @@ module.exports.models = {
   * migrate: 'safe', doesn't do anything on sails lift- for use in production.                *
   *                                                                                           *
   *********************************************************************************************/
-    //adapter    : 'sails-postgresql', // adaptador que se agrego en el package
     migrate    : 'safe',             //safe - alter  - drop  
-    //connection : 'posgrestLocal',   //postgresLocal, postgresRemote
-    connection : 'productionPosgrest',
+    connection : 'posgrestLocal',   //postgresLocal, postgresRemote
+    //connection : 'productionPosgrest',
     schema     : false,             // habilita el uso de esquemas en DB
 
     /* 
