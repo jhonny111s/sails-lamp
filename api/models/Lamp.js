@@ -6,7 +6,7 @@
 */
 
 module.exports = {
-	connection : 'posgrestLocal',
+	//connection : 'posgrestLocal',
 	// adquiere datos de model.js defecto de conexion.
     tableName       : 'lamp',
 
