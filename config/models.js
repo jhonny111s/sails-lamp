@@ -43,7 +43,7 @@ module.exports.models = {
   *********************************************************************************************/
     migrate    : 'alter',             //safe - alter  - drop  
     //connection : 'posgrestLocal',   //postgresLocal, postgresRemote
-    connection : 'mongoProduction',
+    connection : 'mongoProd',
     //connection : 'productionPosgrest',
     //schema     : false,             // habilita el uso de esquemas en DB
 
