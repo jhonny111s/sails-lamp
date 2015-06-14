@@ -12,6 +12,8 @@
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.session.html
  */
 
+ 
+
 module.exports.session = {
 
   /***************************************************************************
@@ -41,7 +43,8 @@ module.exports.session = {
   * session store that can be shared across multiple Sails.js servers        *
   ***************************************************************************/
 
-  // adapter: 'redis',
+ // adapter: 'redis',
+
 
   /***************************************************************************
   *                                                                          *
