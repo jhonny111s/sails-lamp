@@ -75,8 +75,6 @@ module.exports.connections = {
   mongoProduction: {
   adapter: 'sails-mongo',
   url: process.env.MONGOHQ_URL || 'mongodb://localhost:27017/prueba'
-
-  //'mongodb://admin:admin@localhost:27017/prueba'
 },
 
   /***************************************************************************
