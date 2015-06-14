@@ -71,6 +71,7 @@ module.exports.connections = {
     // password: 'password',
     database: 'prueba'
   },
+  
 
   mongoProduction: {
   adapter: 'sails-mongo',
@@ -87,7 +88,7 @@ module.exports.connections = {
   *                                                                          *
   ***************************************************************************/
   //Adaptador para conectarse a la base de datos local
-  posgrestLocal: {
+  /*posgrestLocal: {
     adapter: 'sails-postgresql',
     host: 'localhost',
     user: 'postgres',
@@ -115,7 +116,7 @@ module.exports.connections = {
   url: process.env.HEROKU_POSTGRESQL_BROWN_URL,
   ssl: true
 
-},
+},*/
 
 
   /***************************************************************************
