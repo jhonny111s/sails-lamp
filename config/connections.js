@@ -79,6 +79,11 @@ module.exports.connections = {
   //url: process.env.MONGOLAB_URI //|| 'mongodb://localhost:27017/prueba'
 },
 
+mongoProd: {
+  adapter: 'sails-mongo',
+  url : process.env.MONGOLAB_URI
+},
+
   /***************************************************************************
   *                                                                          *
   * PostgreSQL is another officially supported relational database.          *
