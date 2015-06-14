@@ -8,6 +8,7 @@
 module.exports = {
 	//connection : 'posgrestLocal',
 	// adquiere datos de model.js defecto de conexion.
+   connection : 'mongoProduction',
     tableName       : 'lamp',
 
     // esquema a utilizar para el modelo de cliente
