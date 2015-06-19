@@ -63,19 +63,12 @@ module.exports.connections = {
   * Run: npm install sails-mongo                                             *
   *                                                                          *
   ***************************************************************************/
-  mongoLocal: {
+ mongoProduction: {
     adapter: 'sails-mongo',
-    host: 'localhost',
-    port: 27017,
-    // user: 'username',
-    // password: 'password',
-    database: 'prueba'
-  },
-
-  mongoProduction: {
-  adapter: 'sails-mongo',
-  url: 'mongodb://jhonny111s:chicos12@ds043962.mongolab.com:43962/eco'
+    url: process.env.MONGOLAB_URI || 'mongodb://localhost:27017/prueba',
+    schema : true
 },
+
 
   /***************************************************************************
   *                                                                          *
@@ -87,7 +80,7 @@ module.exports.connections = {
   *                                                                          *
   ***************************************************************************/
   //Adaptador para conectarse a la base de datos local
-  posgrestLocal: {
+/*  posgrestLocal: {
     adapter: 'sails-postgresql',
     host: 'localhost',
     user: 'postgres',
@@ -115,7 +108,7 @@ module.exports.connections = {
   url: process.env.HEROKU_POSTGRESQL_BROWN_URL,
   ssl: true
 
-},
+},*/
 
 
   /***************************************************************************

@@ -80,6 +80,9 @@ bower_components
 ################################################
 .tmp
 dump.rdb
+.rigging
+.waterline
+.sails
 
 
 
