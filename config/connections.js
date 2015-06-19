@@ -65,7 +65,7 @@ module.exports.connections = {
   ***************************************************************************/
  mongoProduction: {
     adapter: 'sails-mongo',
-    url: process.env.MONGOLAB_URI || 'mongodb://localhost:27017/prueba',
+    url: process.env.MONGOLAB_URI, //|| 'mongodb://localhost:27017/prueba',
     schema : true
 },
 
@@ -82,7 +82,6 @@ module.exports.connections = {
   //Adaptador para conectarse a la base de datos local
 
 /*  posgrestLocal: {
->>>>>>> dev
     adapter: 'sails-postgresql',
     host: 'localhost',
     user: 'postgres',
