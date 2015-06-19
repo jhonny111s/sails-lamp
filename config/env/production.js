@@ -18,7 +18,7 @@ module.exports = {
    ***************************************************************************/
 
     models: {
-     connection: 'mongoProdoction'
+     connection: 'mongoProduction'
    },
 
    //MONGOLAB_URI = 'mongodb://heroku_x42k04nk:76nfgrnsvgc04pi',
