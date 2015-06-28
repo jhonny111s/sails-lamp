@@ -7,6 +7,7 @@
 
 module.exports = {
 
+
 	/**
 	 * {SERVER_URL}:{SERVER_PORT}/user/find?username=oswaldo
      *
@@ -37,6 +38,34 @@ module.exports = {
                         return res.send(user);
             });
         }
+     },  
+
+
+    /**
+     * {SERVER_URL}:{SERVER_PORT}/user/findAll
+     *
+     *      [
+                {
+                    "identifier": "12Afo4",
+                    "name": "lamparaEjemplo",
+                    "description": "lampara tipo solar ..",
+                    "location": {"LAT": 3.44, "LON": 4.55},
+                    "type": false,
+                    "id": 1
+                }
+            ]
+     *
+     * 
+     **/
+    findAll: function(req,res){
+ 
+        User.find()
+            .exec(function(error, user) {
+                    if (error)
+                        return res.send(500, error);
+                     else
+                        return res.send(user);
+            });
      },  
 
      /**
@@ -76,10 +105,5 @@ module.exports = {
         }
 
      	}, 
-
-     	  hi: function (req, res) {
-             return res.send("Hi there!");
-  },
 	
 };
-

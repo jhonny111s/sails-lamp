@@ -37,10 +37,27 @@ module.exports = {
   	 required: true
   	},
 
-  	type :{
+  	privated :{
   	 type: 'boolean'
   	},
-  }
+
+    user_name :{
+      type: 'string',
+      required : true
+    },
+
+      toJSON: function() {
+      var obj = this.toObject();
+      delete obj.identifier;
+      delete obj.location;
+      delete obj.description;
+      delete obj.user_name;
+      delete obj.privated;
+      return obj;
+    },
+
+  },
+
 };
 
 

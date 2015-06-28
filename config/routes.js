@@ -53,12 +53,7 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-//  Consulta el nombre completo y id del conductor  
-  'get /lamp/find': {
-    controller: 'LampController',
-    action    : 'find'
-  },
-
+//recursos para los usuarios
   'get /user/find': {
     controller: 'UserController',
     action    : 'find'
@@ -69,9 +64,40 @@ module.exports.routes = {
     action    : 'create'
   },
 
-  'get /user/hi': {
+  'get /user/findAll': {
     controller: 'UserController',
-    action    : 'hi'
+    action    : 'findAll'
+  },
+
+// recursos para las lamparas
+  'get /lamp/find': {
+    controller: 'LampController',
+    action    : 'find'
+  },
+
+   'get /lamp/findAll': {
+    controller: 'LampController',
+    action    : 'findAll'
+  },
+
+  'get /lamp/select': {
+    controller: 'LampController',
+    action    : 'select'
+  },
+
+   'post /lamp/create': {
+    controller: 'LampController',
+    action    : 'create'
+  },
+
+   'put /lamp/update': {
+    controller: 'LampController',
+    action    : 'update'
+  },
+
+   'delete /lamp/delete': {
+    controller: 'LampController',
+    action    : 'delete'
   },
 
 };
