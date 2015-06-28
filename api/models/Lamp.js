@@ -41,19 +41,9 @@ module.exports = {
   	 type: 'boolean'
   	},
 
-    user_name :{
+    userId :{
       type: 'string',
       required : true
-    },
-
-      toJSON: function() {
-      var obj = this.toObject();
-      delete obj.identifier;
-      delete obj.location;
-      delete obj.description;
-      delete obj.user_name;
-      delete obj.privated;
-      return obj;
     },
 
   },

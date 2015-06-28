@@ -9,38 +9,36 @@ module.exports = {
 
 	
 	 /**
-	 * {SERVER_URL}:{SERVER_PORT}/lamp/find
-     * Params: 
-     *    - identifier
+	 * {SERVER_URL}:{SERVER_PORT}/lamps/:identifier
+     * GET
      *
-     *      [
-                {
-                    "identifier"  : "12Afo4",
-                    "name"        : "lamparaEjemplo",
-                    "description" : "lampara tipo solar ..",
-                    "location"    : {"LAT": 3.44, "LON": 4.55},
-                    "privated"    : false,
-                    "id"          : 1
-                }
-            ]
+     *  
+            {
+                "code": 200,
+                "message": [
+                    {
+                        "identifier"  : "0023",
+                        "name"        : "lampara39",
+                        "description" : "es una prueba",
+                        "location"    : {"LAT": 3.44, "LON": 4.55},
+                        "privated"    : false,
+                        "id"          : "558b89ac6a6e4d17150ef830",
+                        "user_id":    : "1"
+                    }
+                ]
+            }
      *
      * 
 	 **/
      find: function(req,res){
-
-        if (!req.param('identifier')) {
-            res.send(400, "invalid identifier");
-        }
-        else{
-           
         Lamp.find( {identifier: req.param('identifier') })
             .exec(function(error, lamp) {
+                console.log({"method":"get", "do":"obtiene los datos de una lampara por su identificador","error":error, "return":lamp}) 
                     if (error)
-                        return res.send(500, error);
+                        return res.send({"code":500,"message":error});
                      else
-                        return res.send(lamp);
+                        return res.send({"code":200, "message": lamp});
             });
-        }
      },       
 
 /*    Lampara.query('SELECT * FROM "prueba"."tablita"', function(err, users) {
@@ -52,32 +50,35 @@ module.exports = {
 
 
    /**
-     * {SERVER_URL}:{SERVER_PORT}/lamp/findAll
-     *      
-            [
+     * {SERVER_URL}:{SERVER_PORT}/lamps/
+     *  GET    
+            {
+            "code": 200,
+            "message": [
                 {
-                    "identifier"   : "00b11",
-                    "name"         : "lampara1",
-                    "description"  : "es una prueba",
-                    "location": {"lat": 34,"lon": 566},
-                    "id": "5"
+                    "identifier": "0023",
+                    "name": "lampara39",
+                    "description": "es una prueba",
+                    "location": 12,
+                    "privated": false,
+                    "id": "558b89ac6a6e4d17150ef830"
                 },
                 {
-                  .....
+                  ........
                 },
             ]
-            
+            }
      *
      * 
      **/
-   findAll: function(req,res){
-           
+   findAll: function(req,res){   
         Lamp.find( {})
             .exec(function(error, lamp) {
+                console.log({"method":"get","do":"obtiene todas las lamparas","error":error, "return":lamp})
                     if (error)
-                        return res.send(500, error);
+                        return res.send({"code":500,"message":error});
                      else
-                        return res.send(lamp);
+                        return res.send({"code":200, "message": lamp});
             });
      }, 
 
@@ -101,43 +102,36 @@ module.exports = {
      * 
      **/
      create: function(req,res){
-
-        if (!req.param('identifier'))
-            res.send(400, "invalid identifier");
-        if (!req.param('name')) 
-            res.send(400, "invalid name");
-        if(!req.param('location'))
-            res.send(400, "invalid location");
-        if(!req.param('user_name'))
-            res.send(400, "invalid user"); 
-
+        if (!req.param('identifier')||!req.param('name')||!req.param('location')||!req.param('user_name'))
+            res.send({"code":400, "message":"invalid parameter"});
         else {
             User.find({username: req.param('user_name') })
                 .exec(function(error,user){
-            if (user.length!=0){
-
-        Lamp.find( {identifier: req.param('identifier') })
-            .exec(function(error, exist) {
-                if (error)
-                        return res.send(500, error);
-                if (exist.length == 0) {
-                    Lamp.create(req.allParams())
-                        .exec(function(error,lamp){
-                            console.log(lamp);
-                            if (error)
-                                return res.send(500, error);
-                            else
-                                return res.send({id: lamp.id});
+                if (user.length!=0){
+                    req.allParams.userId= user[0].id;
+                    Lamp.find( {identifier: req.param('identifier') })
+                        .exec(function(error, exist) {
+                        if (error)
+                            return res.send({"code":500,"message":error});
+                        if (exist.length == 0) {
+                            req.allParams().userId= user[0].id;
+                            Lamp.create( req.allParams() )
+                                .exec(function(error,lamp){
+                                
+                                if (error)
+                                    return res.send({"code":500,"message":error});
+                                else
+                                    return res.send({"code":201,"message":{id: lamp.id}});
+                            });
+                        }
+                        else 
+                            return res.send({"code":400,"message":'Lamp exist'});
                     });
-                }
-                else 
-                    return res.send('Lamp exist');
+                }   
+                 else
+                    res.send({"code":400, "message":"invalid user"}); 
             });
         }
-else
-    res.send(400, "invalid user"); 
-});
-            }
     }, 
 
 

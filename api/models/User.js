@@ -17,6 +17,15 @@ module.exports = {
   	 type: 'string',
   	 required: true
   	},
+
+  	admin : {
+  		type: 'boolean'
+  	},
+
+  	activo : {
+  		type : 'boolean'
+
+  	}
   }
   
 };

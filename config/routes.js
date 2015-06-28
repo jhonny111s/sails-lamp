@@ -54,28 +54,35 @@ module.exports.routes = {
   ***************************************************************************/
 
 //recursos para los usuarios
-  'get /user/find': {
+  'get /users/:username': {
     controller: 'UserController',
     action    : 'find'
   },
 
-  'post /user/create': {
-    controller: 'UserController',
-    action    : 'create'
-  },
-
-  'get /user/findAll': {
+  'get /users/': {
     controller: 'UserController',
     action    : 'findAll'
   },
 
+  'post /users/:username': {
+    controller: 'UserController',
+    action    : 'create'
+  },
+
+  'delete /users/:username': {
+    controller: 'UserController',
+    action    : 'delete'
+  },
+
+
+
 // recursos para las lamparas
-  'get /lamp/find': {
+  'get /lamps/:identifier': {
     controller: 'LampController',
     action    : 'find'
   },
 
-   'get /lamp/findAll': {
+   'get /lamps/': {
     controller: 'LampController',
     action    : 'findAll'
   },
@@ -85,7 +92,7 @@ module.exports.routes = {
     action    : 'select'
   },
 
-   'post /lamp/create': {
+   'post /lamps/': {
     controller: 'LampController',
     action    : 'create'
   },
