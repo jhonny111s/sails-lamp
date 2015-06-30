@@ -22,7 +22,7 @@ module.exports = {
   		type: 'boolean'
   	},
 
-  	activo : {
+  	active : {
   		type : 'boolean'
 
   	}

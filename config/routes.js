@@ -97,12 +97,12 @@ module.exports.routes = {
     action    : 'create'
   },
 
-   'put /lamp/update': {
+   'put /lamp/:identifier': {
     controller: 'LampController',
     action    : 'update'
   },
 
-   'delete /lamp/delete': {
+   'delete /lamp/:identifier': {
     controller: 'LampController',
     action    : 'delete'
   },

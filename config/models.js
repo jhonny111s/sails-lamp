@@ -41,7 +41,7 @@ module.exports.models = {
   * migrate: 'safe', doesn't do anything on sails lift- for use in production.                *
   *                                                                                           *
   *********************************************************************************************/
-    migrate    : 'alter',             //safe - alter  - drop  
+    migrate    : 'safe',             //safe - alter  - drop  
     connection : 'mongoProduction',
     //connection : 'productionPosgrest',
     //schema     : false,             // habilita el uso de esquemas en DB
