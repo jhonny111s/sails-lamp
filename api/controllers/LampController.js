@@ -12,34 +12,65 @@ module.exports = {
 	 * {SERVER_URL}:{SERVER_PORT}/lamps/:identifier
      * GET
      *
-     *  
+     *  [
             {
                 "code": 200,
-                "message": [
+                "message": "Datos de la lampara",
+                "data": [
                     {
-                        "identifier"  : "0023",
-                        "name"        : "lampara39",
-                        "description" : "es una prueba",
-                        "location"    : {"LAT": 3.44, "LON": 4.55},
-                        "privated"    : false,
-                        "id"          : "558b89ac6a6e4d17150ef830",
-                        "user_id":    : "1"
+                        "identifier": "0023",
+                        "name": "lampara39",
+                        "description": "es una prueba",
+                        "location": 12,
+                        "privated": false,
+                        "id": "558b89ac6a6e4d17150ef830"
                     }
-                ]
-            }
+            }        
+        ]
      *
      * 
 	 **/
      find: function(req,res){
         Lamp.find( {identifier: req.param('identifier') })
             .exec(function(error, lamp) {
-                console.log({"method":"get", "do":"obtiene los datos de una lampara por su identificador","error":error, "return":lamp}) 
-                    if (error)
-                        return res.send({"code":500,"message":error});
-                     else
-                        return res.send({"code":200, "message": lamp});
+                    if (error){
+                        sails.log.error({"code":500,"response":"ERROR","method":"find", "controller":"Lamp"});
+                        return res.send({"code":500,"message":"Error al obtener lampara","data":error});
+                    }
+                     else{
+                         sails.log.info({"code":200,"response":"OK","method":"find", "controller":"Lamp"});
+                        return res.send({"code":200,"message": "Datos de la lampara","data":[lamp[0]]});
+                    }
             });
-     },       
+     },  
+
+
+     findUser: function(req,res){
+        User.find({username: req.param('username') })
+                .exec(function(error,user){
+                if (error){
+                    sails.log.error({"code":500,"response":"ERROR","method":"findUser","controller":"Lamp"});
+                    return res.send({"code":500,"message":"Error al obtener usuario","data":error});
+                }
+                if(user.length!=0){
+                    Lamp.find( {userId: user[0].id})
+                        .exec(function(error, lamp) {
+                        if (error){
+                            sails.log.error({"code":500,"response":"ERROR","method":"findUser","controller":"Lamp"});
+                            return res.send({"code":500,"message":"Error al obtener lamparas","data":error});
+                        }
+                        else{
+                            sails.log.info({"code":200,"response":"OK","method":"findUser","controller":"Lamp"});
+                            return res.send({"code":200,"message": "Datos de la lampara","data":[lamp]});
+                        }
+                    });         
+                }
+                else{
+                    sails.log.info({"code":422,"response":"WARNING","method":"finUser","controller":"Lamp"});
+                    return res.send({"code":422, "message":'User does not exist',"data":[]});
+                }
+        });            
+     },     
 
 /*    Lampara.query('SELECT * FROM "prueba"."tablita"', function(err, users) {
     if(err) res.json({ error: err.message }, 400);
@@ -74,36 +105,48 @@ module.exports = {
    findAll: function(req,res){   
         Lamp.find( {})
             .exec(function(error, lamp) {
-                console.log({"method":"get","do":"obtiene todas las lamparas","error":error, "return":lamp})
-                    if (error)
-                        return res.send({"code":500,"message":error});
-                     else
-                        return res.send({"code":200, "message": lamp});
+                    if (error){
+                        sails.log.error({"code":500,"response":"ERROR","method":"findAll","controller":"Lamp"});
+                        return res.send({"code":500,"message":"Error al obtener las lamparas","data":error});
+                    }
+                     else{
+                        sails.log.info({"code":200,"response":"OK","method":"findAll","controller":"Lamp"});
+                        return res.send({"code":200,"message":"Datos de todos las lamparas" ,"data": lamp});
+                    }
             });
      }, 
 
 
     /**
-     * {SERVER_URL}:{SERVER_PORT}/lamp/create
+     * {SERVER_URL}:{SERVER_PORT}/lamps/:identifier
+     *  POST
      *   params:
-     *        - identifier
-     *        - name
+     *        - name*
      *        - description
-     *        - location
+     *        - location*
      *        - privated
+     *        - type_lamp
+     *        - user_name*
      *
-     *
-     *     
-                {
-                    "id": 1
-                }
-    
+            {
+                "code": 201,
+                "message": "Creación exitosa",
+                "data": [
+                    {
+                        "id": "55935437fcccff9b1b4b2ce5"
+                    }
+                ]
+            }
      *
      * 
      **/
      create: function(req,res){
-        if (!req.param('identifier')||!req.param('name')||!req.param('location')||!req.param('user_name'))
-            res.send({"code":400, "message":"invalid parameter"});
+        if(!req.param('privated'))
+            req.allParams().privated = true;
+        if (!req.param('identifier')||!req.param('name')||!req.param('location')||!req.param('user_name')){
+            sails.log.info({"code":400,"response":"WARNING","method":"create","controller":"Lamp"});
+            return res.send({"code":400, "message":'invalid parameter',"data":[]});
+        }
         else {
             User.find({username: req.param('user_name') })
                 .exec(function(error,user){
@@ -111,108 +154,139 @@ module.exports = {
                     req.allParams.userId= user[0].id;
                     Lamp.find( {identifier: req.param('identifier') })
                         .exec(function(error, exist) {
-                        if (error)
-                            return res.send({"code":500,"message":error});
+                        if (error){
+                            sails.log.error({"code":500,"response":"ERROR","method":"create","controller":"Lamp"});
+                            return res.send({"code":500,"message":"Error al obtener lampara","data":error});
+                        }
                         if (exist.length == 0) {
                             req.allParams().userId= user[0].id;
                             Lamp.create( req.allParams() )
-                                .exec(function(error,lamp){
-                                
-                                if (error)
-                                    return res.send({"code":500,"message":error});
-                                else
-                                    return res.send({"code":201,"message":{id: lamp.id}});
+                                .exec(function(error,lamp){ 
+                                if (error){
+                                    sails.log.error({"code":500,"response":"ERROR","method":"create","controller":"Lamp"});
+                                    return res.send({"code":500,"message":"Error al crear lampara","data":error});
+                                }
+                                else{
+                                    sails.log.info({"code":201,"response":"OK","method":"create","controller":"Lamp"});
+                                    return res.send({"code":201,"message":"Creación exitosa" ,"data": [{id: lamp.id}]});
+                                }
                             });
                         }
-                        else 
-                            return res.send({"code":400,"message":'Lamp exist'});
+                        else {
+                            sails.log.info({"code":422,"response":"WARNING","method":"create","controller":"Lamp"});
+                            return res.send({"code":422, "message":'Lamp already exist',"data":[{id:exist[0].id}]});
+                        }
                     });
                 }   
-                 else
-                    res.send({"code":400, "message":"invalid user"}); 
+                 else{
+                    sails.log.info({"code":422,"response":"WARNING","method":"create","controller":"Lamp"});
+                    return res.send({"code":422, "message":'User does not exist',"data":[]});
+                }
             });
         }
     }, 
 
 
     /**
-     * {SERVER_URL}:{SERVER_PORT}/lamp/update
+     * {SERVER_URL}:{SERVER_PORT}/lamps/:identifier
+     *  PUT
      *   params:
-     *        - identifier
-     *        - name
+     *        - name*
      *        - description
-     *        - location
+     *        - location*
      *        - privated
+     *        - type_lamp
      *
      *
      *     
-                {
-                    "id": 1
-                }
+            {
+                "code": 200,
+                "message": "Actualización exitosa",
+                "data": [
+                    {
+                        "id": "1"
+                    }
+                ]
+            }
     
      *
      * 
      **/
         update: function(req, res){
-            if (!req.param('identifier'))
-                res.send(400, "invalid identifier");
+            if (!req.param('identifier')){
+                sails.log.info({"code":400,"response":"WARNING","method":"update","controller":"Lamp"});
+                return res.send({"code":400, "message":'invalid parameter',"data":[]});
+            }
             else{
                  Lamp.find( {identifier: req.param('identifier') })
                     .exec(function(error, exist) {
-                    if (error)
-                        return res.send(500, error);
+                    if (error){
+                        sails.log.error({"code":500,"response":"ERROR","method":"update","controller":"Lamp"});
+                        return res.send({"code":500,"message":"Error al obtener lampara","data":error});
+                    }
                     if (exist.length != 0) {
                         Lamp.update({identifier: req.param('identifier')},req.allParams())
                              .exec(function(error,lamp){
-                       if (error)
-                            return res.send(500, error);
-                        else
-                            return res.send({id:lamp[0].id});
+                       if (error){
+                        sails.log.error({"code":500,"response":"ERROR","method":"update","controller":"Lamp"});
+                        return res.send({"code":500,"message":"Error al actualizar lampara","data":error});
+                       }
+                        else{
+                            sails.log.info({"code":200,"response":"OK","method":"update","controller":"Lamp"});
+                            return res.send({"code":200,"message":"Actualización exitosa" ,"data": [{id:lamp[0].id}]});
+                        }
                         });
                     }
                     else{
-                        res.send(400, "invalid identifier");
+                        sails.log.info({"code":422,"response":"WARNING","method":"update","controller":"Lamp"});
+                        return res.send({"code":422, "message":'Identifier does not exist',"data":[]});
                     }
                 });
             }        
         },
 
     /**
-     * {SERVER_URL}:{SERVER_PORT}/lamp/delete
-     *   params:
-     *        - identifier
-     *
-     *
+     * {SERVER_URL}:{SERVER_PORT}/lamps/:identifier
+     * DELETE
      *     
+        {
+            "code": 200,
+            "message": "Eliminación exitosa",
+            "data": [
                 {
-                    "id": 1
+                    "id": "1"
                 }
+            ]
+        }
     
      *
      * 
      **/
         delete: function(req, res){
-            if (!req.param('identifier'))
-                res.send(400, "invalid identifier");
-            else{
                 Lamp.find( {identifier: req.param('identifier') })
                     .exec(function(error, exist) {
-                if (error)
-                    return res.send(500, error);
-                if (exist.length != 0) {
-                    Lamp.destroy({identifier:req.param('identifier')})
-                        .exec(function(error,lamp){
-                    if (error)
-                        return res.send(500, error);
-                    else
-                        return res.send({id:lamp[0].id});
-                    });
-                }
-                else{
-                   res.send(400, "invalid identifier"); 
-                }
+                    if (error){
+                        sails.log.error({"code":500,"response":"ERROR","method":"delete","controller":"Lamp"});
+                        return res.send({"code":500,"message":"Error al obtener lampara","data":error});
+                    }
+                    if (exist.length != 0) {
+                        Lamp.destroy({identifier:req.param('identifier')})
+                            .exec(function(error,lamp){
+                            if (error){
+                                sails.log.error({"code":500,"response":"ERROR","method":"delete","controller":"Lamp"});
+                                return res.send({"code":500,"message":"Error al eliminar lampara","data":error});
+                            }
+                            else{
+                                sails.log.info({"code":200,"response":"OK","method":"delete","controller":"Lamp"});
+                                return res.send({"code":200,"message":"Eliminación exitosa" ,"data": [{id:lamp[0].id}]});
+                            }
+                        });
+                    }
+                    else{
+                        sails.log.info({"code":422,"response":"WARNING","method":"delete","controller":"Lamp"});
+                        return res.send({"code":422, "message":'Identifier does not exist',"data":[]});
+                    }
               }); 
-              } 
         },  
 
 

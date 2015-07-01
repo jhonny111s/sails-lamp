@@ -97,14 +97,19 @@ module.exports.routes = {
     action    : 'create'
   },
 
-   'put /lamp/:identifier': {
+   'put /lamps/:identifier': {
     controller: 'LampController',
     action    : 'update'
   },
 
-   'delete /lamp/:identifier': {
+   'delete /lamps/:identifier': {
     controller: 'LampController',
     action    : 'delete'
+  },
+
+   'get /lamps/user/:username': {
+    controller: 'LampController',
+    action    : 'findUser'
   },
 
 };

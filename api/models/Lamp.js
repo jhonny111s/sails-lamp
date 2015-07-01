@@ -6,15 +6,8 @@
 */
 
 module.exports = {
-	//connection : 'posgrestLocal',
-	// adquiere datos de model.js defecto de conexion.
    //connection : 'mongoProduction',
     tableName       : 'lamp',
-
-    // esquema a utilizar para el modelo de cliente
-  //  meta: {
-    //    schemaName  : 'prueba'
-    //},
 
   attributes: {
 
@@ -40,6 +33,10 @@ module.exports = {
   	privated :{
   	 type: 'boolean'
   	},
+
+    type_lamp:{
+      type: 'array'
+    },
 
     userId :{
       type: 'string',
