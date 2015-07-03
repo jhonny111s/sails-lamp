@@ -69,12 +69,12 @@ module.exports.connections = {
     schema : true
 },
 
-mongoLocal: {
+/*mongoLocal: {
    adapter: 'sails-mongo',
     url: 'mongodb://localhost:27017/prueba',
     schema : true
 }
-
+*/
 
   /***************************************************************************
   *                                                                          *
