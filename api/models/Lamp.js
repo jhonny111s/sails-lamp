@@ -38,6 +38,10 @@ module.exports = {
       type: 'array'
     },
 
+    active : {
+      type : 'boolean'
+    },
+
     userId :{
       type: 'string',
       required : true

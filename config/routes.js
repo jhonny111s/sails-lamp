@@ -87,7 +87,7 @@ module.exports.routes = {
     action    : 'findAll'
   },
 
-  'get /lamp/select': {
+  'get /select/lamps/': {
     controller: 'LampController',
     action    : 'select'
   },
@@ -110,6 +110,26 @@ module.exports.routes = {
    'get /lamps/user/:username': {
     controller: 'LampController',
     action    : 'findUser'
+  },
+
+
+
+
+ //recursos para tipos de lamparas 
+
+ 'get /types/:name': {
+    controller: 'TypeController',
+    action    : 'find'
+  },
+
+  'get /types/': {
+    controller: 'TypeController',
+    action    : 'findAll'
+  },
+
+   'post /types/': {
+    controller: 'TypeController',
+    action    : 'create'
   },
 
 };

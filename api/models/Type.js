@@ -24,6 +24,10 @@ module.exports = {
   	 type: 'boolean'
   	},
 
+    active : {
+      type : 'boolean'
+    },
+
     userId :{
       type: 'string',
       required : true
