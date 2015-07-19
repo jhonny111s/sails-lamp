@@ -238,19 +238,19 @@ module.exports = {
      * 
      **/
         update: function(req, res){
-            if (!req.param('identifier')){
+            if (!req.param('id')){
                 sails.log.info({"code":400,"response":"WARNING","method":"update","controller":"Lamp"});
                 return res.send({"code":400, "message":'Invalid parameter',"data":[]});
             }
             else{
-                 Lamp.find( {identifier: req.param('identifier') })
+                 Lamp.find( {id: req.param('id') })
                     .exec(function(error, exist) {
                     if (error){
                         sails.log.error({"code":500,"response":"ERROR","method":"update","controller":"Lamp"});
                         return res.send({"code":500,"message":"Error to get lamp","data":error});
                     }
                     if (exist.length != 0) {
-                        Lamp.update({identifier: req.param('identifier')},req.allParams())
+                        Lamp.update({id: req.param('id')},req.allParams())
                              .exec(function(error,lamp){
                        if (error){
                         sails.log.error({"code":500,"response":"ERROR","method":"update","controller":"Lamp"});
@@ -264,7 +264,7 @@ module.exports = {
                     }
                     else{
                         sails.log.info({"code":422,"response":"WARNING","method":"update","controller":"Lamp"});
-                        return res.send({"code":422, "message":'Identifier does not exist',"data":[]});
+                        return res.send({"code":422, "message":'Id does not exist',"data":[]});
                     }
                 });
             }        

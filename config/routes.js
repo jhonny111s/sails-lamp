@@ -97,7 +97,7 @@ module.exports.routes = {
     action    : 'create'
   },
 
-   'put /lamps/:identifier': {
+   'put /lamps/:id': {
     controller: 'LampController',
     action    : 'update'
   },
