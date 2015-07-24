@@ -114,7 +114,6 @@ module.exports.routes = {
 
 
 
-
  //recursos para tipos de lamparas 
 
  'get /types/:name': {
@@ -127,9 +126,19 @@ module.exports.routes = {
     action    : 'findAll'
   },
 
-   'post /types/': {
+   'post /types/:name': {
     controller: 'TypeController',
     action    : 'create'
+  },
+
+   'put /types/:id': {
+    controller: 'TypeController',
+    action    : 'update'
+  },
+
+  'get /select/types/': {
+    controller: 'TypeController',
+    action    : 'select'
   },
 
 };

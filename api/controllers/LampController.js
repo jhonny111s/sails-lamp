@@ -11,7 +11,7 @@ module.exports = {
 	 /**
 	 * {SERVER_URL}:{SERVER_PORT}/lamps/:identifier
      * GET
-     *
+     * obtiene datos de una lampara por su codigo de identificación
      * 
             {
                 "code": 200,
@@ -21,16 +21,21 @@ module.exports = {
                         "identifier": "0023",
                         "name": "lampara39",
                         "description": "es una prueba",
-                        "location": 12,
-                        "privated": false,
-                        "id": "558b89ac6a6e4d17150ef830"
+                        "location": {
+                            "A": 4.8100424399747235,
+                            "F": -75.69090843200684
+                        },
+                        "active": false,
+                        "privated": true,
+                        "type_lamp": "2"
+                        "id": "1"
                     }
             }        
      *
      * 
 	 **/
      find: function(req,res){
-        Lamp.find( {identifier: req.param('identifier') })
+        Lamp.find( {identifier: req.param('identifier')})
             .exec(function(error, lamp) {
                     if (error){
                         sails.log.error({"code":500,"response":"ERROR","method":"find", "controller":"Lamp"});
@@ -45,21 +50,26 @@ module.exports = {
 
 
      /**
-     * {SERVER_URL}:{SERVER_PORT}/lamps/user/:identifier
+     * {SERVER_URL}:{SERVER_PORT}/lamps/user/:username
      * GET
-     *
+     * obtiene datos de las lamparas perteneciantes a un usuario 
      *  
             {
                 "code": 200,
-                "message": "Data of lampara",
+                "message": "Data of lamp",
                 "data": [
                             {
-                                "identifier": "012",
-                                "name": "lamparita1",
-                                "location": "{\"tt\":rrr}",
+                                "identifier": "0023",
+                                "name": "lampara39",
+                                "description": "es una prueba",
+                                "location": {
+                                    "A": 4.8100424399747235,
+                                    "F": -75.69090843200684
+                                },
+                                "active": false,
                                 "privated": true,
-                                "userId": "55908b7e10ac8cbf4ba7a3ab",
-                                "id": "55935437fcccff9b1b4b2ce5"
+                                "type_lamp": "2"
+                                "id": "1"
                             },
                             {.................}
                         ]
@@ -113,9 +123,14 @@ module.exports = {
                             "identifier": "0023",
                             "name": "lampara39",
                             "description": "es una prueba",
-                            "location": 12,
-                            "privated": false,
-                            "id": "558b89ac6a6e4d17150ef830"
+                            "location": {
+                                "A": 4.8100424399747235,
+                                "F": -75.69090843200684
+                            },
+                            "active": false,
+                            "privated": true,
+                            "type_lamp": "2"
+                            "id": "1"
                         },
                         {
                           ........
@@ -143,10 +158,12 @@ module.exports = {
     /**
      * {SERVER_URL}:{SERVER_PORT}/lamps/:identifier
      *  POST
+     crea una nueva lampara con el identificador dado
      *   params:
      *        - name*
      *        - description
      *        - location*
+     *        - active
      *        - privated
      *        - type_lamp
      *        - username*
@@ -213,14 +230,16 @@ module.exports = {
 
 
     /**
-     * {SERVER_URL}:{SERVER_PORT}/lamps/:identifier
+     * {SERVER_URL}:{SERVER_PORT}/lamps/:id
      *  PUT
+        actualiza una lampara por su identificador de base de datos
      *   params:
-     *        - name*
+     *        - name
      *        - description
-     *        - location*
+     *        - location
      *        - privated
      *        - type_lamp
+     *        - id*
      *
      *
      *     

@@ -42,9 +42,10 @@ module.exports = {
             });
      }, 
 
-       /**
+    /**
      * {SERVER_URL}:{SERVER_PORT}/types/
-     *  GET    
+     *  GET 
+        obtiene todos los tipos de lamparas  
             {
                 "code": 200,
                 "message": "All data types of lamps",
@@ -78,8 +79,9 @@ module.exports = {
 
 
       /**
-     * {SERVER_URL}:{SERVER_PORT}/types/
+     * {SERVER_URL}:{SERVER_PORT}/types/:name
      *  POST
+     crea un tipo de lampara
      *   params:
      *        - name*
      *        - description
@@ -104,12 +106,12 @@ module.exports = {
             req.allParams().active = true;
         if(!req.param('privated'))
             req.allParams().privated = true;
-        if (!req.param('name')||!req.param('user_name')){
+        if (!req.param('name')||!req.param('username')){
             sails.log.info({"code":400,"response":"WARNING","method":"create","controller":"Type"});
             return res.send({"code":400, "message":'Invalid parameter',"data":[]});
         }
         else {
-            User.find({name: req.param('username') })
+            User.find({username: req.param('username') })
                 .exec(function(error,user){
                 if (user.length!=0){
                     req.allParams.userId= user[0].id;
@@ -146,6 +148,101 @@ module.exports = {
             });
         }
     }, 
+
+    /**
+     * {SERVER_URL}:{SERVER_PORT}/types/:id
+     *  PUT
+     actualiza un tipo de lampara por su identificador de base de datos
+     *   params:
+     *        - name
+     *        - description
+     *        - privated
+     *        - active
+     *        - username
+     *        - id*
+     *
+     *
+     *     
+            {
+                "code": 200,
+                "message": "Update success",
+                "data": [
+                    {
+                        "id": "1"
+                    }
+                ]
+            }
+    
+     *
+     * 
+     **/
+     update: function(req, res){
+            if (!req.param('id')){
+                sails.log.info({"code":400,"response":"WARNING","method":"update","controller":"Type"});
+                return res.send({"code":400, "message":'Invalid parameter',"data":[]});
+            }
+            else{
+                 Type.find( {id: req.param('id') })
+                    .exec(function(error, exist) {
+                    if (error){
+                        sails.log.error({"code":500,"response":"ERROR","method":"update","controller":"Type"});
+                        return res.send({"code":500,"message":"Error to get type lamp","data":error});
+                    }
+                    if (exist.length != 0) {
+                        Type.update({id: req.param('id')},req.allParams())
+                             .exec(function(error,type){
+                       if (error){
+                        sails.log.error({"code":500,"response":"ERROR","method":"update","controller":"Type"});
+                        return res.send({"code":500,"message":"Error updating type lamp","data":error});
+                       }
+                        else{
+                            sails.log.info({"code":200,"response":"OK","method":"update","controller":"Type"});
+                            return res.send({"code":200,"message":"Update success" ,"data": [{id:type[0].id}]});
+                        }
+                        });
+                    }
+                    else{
+                        sails.log.info({"code":422,"response":"WARNING","method":"update","controller":"Type"});
+                        return res.send({"code":422, "message":'Id does not exist',"data":[]});
+                    }
+                });
+            }        
+        },
+
+             /**
+     * {SERVER_URL}:{SERVER_PORT}/select/lamps
+     * DELETE
+     *     
+        {
+            "code": 200,
+            "message": "Select ok",
+            "data": [
+                {
+                    "_id": "558b89ac6a6e4d17150ef830",
+                    "name": "tipo parque"
+                },
+                {................},
+            ]    
+        }
+    
+     *
+     * 
+     **/
+       select: function(req, res){
+            Type.native(function(err, collection) {
+                if (err) return res.serverError(err);
+                collection.find({}, {name: true}).toArray(function (error, type) {
+                    if (error){
+                        sails.log.error({"code":500,"response":"ERROR","method":"select","controller":"Type"});
+                        return res.send({"code":500,"message":"Error to get type lamps","data":error});
+                    }
+                    else{
+                        sails.log.info({"code":200,"response":"OK","method":"select","controller":"type"});
+                        return res.send({"code":200,"message":"Select ok" ,"data": type});
+                    }
+                });
+            });
+       },
 
 	
 
