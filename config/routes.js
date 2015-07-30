@@ -136,9 +136,14 @@ module.exports.routes = {
     action    : 'update'
   },
 
-  'get /select/types/': {
+  'get /select/types/:username': {
     controller: 'TypeController',
     action    : 'select'
+  },
+
+  'get /types/user/:username': {
+    controller: 'TypeController',
+    action    : 'findUser'
   },
 
 };

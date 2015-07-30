@@ -356,7 +356,7 @@ module.exports = {
        select: function(req, res){
             Lamp.native(function(err, collection) {
                 if (err) return res.serverError(err);
-                collection.find({}, {name: true}).toArray(function (error, lamp) {
+                collection.find({active:true}, {name: true}).toArray(function (error, lamp) {
                     if (error){
                         sails.log.error({"code":500,"response":"ERROR","method":"select","controller":"Lamp"});
                         return res.send({"code":500,"message":"Error to get lamps","data":error});

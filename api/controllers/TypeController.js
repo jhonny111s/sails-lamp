@@ -42,6 +42,62 @@ module.exports = {
             });
      }, 
 
+     /**
+     * {SERVER_URL}:{SERVER_PORT}/types/user/:username
+     * GET
+     * obtiene datos de los tipos de lamparas perteneciantes a un usuario 
+     *  
+           {
+            "code": 200,
+            "message": "Data of type lamp",
+            "data": [
+                {
+                    "name": "tipoparque",
+                    "active": true,
+                    "privated": true,
+                    "userId": "559f44c2dbf2d06318b48b59",
+                    "id": "55b06d1336e21f03136bb498"
+                },
+                {
+                    "active": true,
+                    "name": "mierdita",
+                    "privated": true,
+                    "userId": "559078c91ddb615b404a0d89",
+                    "id": "55b6dd9cca31e90b12f2efe7"
+                }
+            ]
+}      
+     *
+     * 
+     **/
+     findUser: function(req,res){
+        User.find({username: req.param('username') })
+                .exec(function(error,user){
+                if (error){
+                    sails.log.error({"code":500,"response":"ERROR","method":"findUser","controller":"Type"});
+                    return res.send({"code":500,"message":"Error to get user","data":error});
+                }
+                if(user.length!=0){
+                    Type.find({or:[{userId: user[0].id},{active:true}]})
+                        .exec(function(error, lamp) {
+                        if (error){
+                            sails.log.error({"code":500,"response":"ERROR","method":"findUser","controller":"Type"});
+                            return res.send({"code":500,"message":"Error to get type lamp","data":error});
+                        }
+                        else{
+                            sails.log.info({"code":200,"response":"OK","method":"findUser","controller":"Type"});
+                            return res.send({"code":200,"message": "Data of type lamp","data":lamp});
+                        }
+                    });         
+                }
+                else{
+                    sails.log.info({"code":422,"response":"WARNING","method":"finUser","controller":"Type"});
+                    return res.send({"code":422, "message":'User does not exist',"data":[]});
+                }
+        });            
+     },     
+
+
     /**
      * {SERVER_URL}:{SERVER_PORT}/types/
      *  GET 
@@ -229,20 +285,35 @@ module.exports = {
      * 
      **/
        select: function(req, res){
-            Type.native(function(err, collection) {
-                if (err) return res.serverError(err);
-                collection.find({}, {name: true}).toArray(function (error, type) {
+            User.find({username: req.param('username') })
+                    .exec(function(error,user){
                     if (error){
-                        sails.log.error({"code":500,"response":"ERROR","method":"select","controller":"Type"});
-                        return res.send({"code":500,"message":"Error to get type lamps","data":error});
+                        sails.log.error({"code":500,"response":"ERROR","method":"findUser","controller":"Type"});
+                        return res.send({"code":500,"message":"Error to get user","data":error});
+                    }
+                    if(user.length!=0){
+                        Type.native(function(err, collection) {
+                            if (err) return res.serverError(err);
+                            console.log(user[0].id);
+                            collection.find({$or:[{userId: user[0].id},{active:true}]},{name: true})
+                                    .toArray(function(error, type) {
+                                    if (error){
+                                        sails.log.error({"code":500,"response":"ERROR","method":"findUser","controller":"Type"});
+                                        return res.send({"code":500,"message":"Error to get type lamp","data":error});
+                                    }
+                                    else{
+                                        sails.log.info({"code":200,"response":"OK","method":"findUser","controller":"Type"});
+                                        return res.send({"code":200,"message": "Select Ok","data":type});
+                                    }
+                                });         
+                            });
                     }
                     else{
-                        sails.log.info({"code":200,"response":"OK","method":"select","controller":"type"});
-                        return res.send({"code":200,"message":"Select ok" ,"data": type});
+                        sails.log.info({"code":422,"response":"WARNING","method":"select","controller":"Type"});
+                        return res.send({"code":422, "message":'Select Ok',"data":[]});
                     }
-                });
-            });
-       },
+            });            
+         },  
 
 	
 
