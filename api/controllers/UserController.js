@@ -13,7 +13,7 @@ module.exports = {
      *  GET
      *     {
             "code": 200,
-            "message": "Datos del usuario",
+            "message": "User data",
             "data": [
                     {
                         "username": "user123",
@@ -31,11 +31,11 @@ module.exports = {
             .exec(function(error, user) {
                     if (error){
                         sails.log.error({"code":500,"response":"ERROR","method":"find", "controller":"User"});
-                        return res.send({"code":500,"message":"Error al obtener usuario","data":error});
+                        return res.send({"code":500,"message":"Error to get user","data":error});
                      }
                      else{
                         sails.log.info({"code":200,"response":"OK","method":"find", "controller":"User"});
-                        return res.send({"code":200,"message": "Datos del usuario","data":[user[0]]});
+                        return res.send({"code":200,"message": "User data","data":[user[0]]});
                     }
             });
      },  
@@ -46,7 +46,7 @@ module.exports = {
      * GET
      *          {
                 "code": 200,
-                "message":"Datos de todos los usuarios",
+                "message":"All user data",
                 "data": [
                     {
                         "username": "user1",
@@ -71,11 +71,11 @@ module.exports = {
             .exec(function(error, user) {
                     if (error){
                         sails.log.error({"code":500,"response":"ERROR","method":"findAll", "controller":"User"});
-                        return res.send({"code":500,"message":"Error al obtener usuarios","data":error});  
+                        return res.send({"code":500,"message":"Error to get users","data":error});  
                      }
                      else{
                         sails.log.info({"code":200,"response":"OK","method":"findAll", "controller":"User"});
-                        return res.send({"code":200,"message":"Datos de todos los usuarios" ,"data": user});
+                        return res.send({"code":200,"message":"All user data" ,"data": user});
                     }
             });
      },  
@@ -86,7 +86,7 @@ module.exports = {
      *      
                 {
                     "code": 201,
-                    "message":"Creación exitosa",
+                    "message":"Create success",
                     "data": {
                     "id": "1"
                     }
@@ -96,26 +96,26 @@ module.exports = {
 	 **/
      create: function(req,res){
         if(!req.param('admin'))
-            req.allParams().admin = 'false';
+            req.allParams().admin = false;
         if(!req.param('active'))
-            req.allParams().activo= 'false';
+            req.allParams().active= true;
 
  		User.find({username: req.param('username')})
             .exec(function(error, exist) {
             	if (error){
                     sails.log.error({"code":500,"response":"ERROR","method":"create", "controller":"User"});
-                    return res.send({"code":500,"message":"Error al obtener usuario","data":error});
+                    return res.send({"code":500,"message":"Error to get user","data":error});
                 }
             	if (exist.length == 0) {
      				User.create(req.allParams())
      					.exec(function(error,user){
      						if (error){
                                 sails.log.error({"code":500,"response":"ERROR","method":"create", "controller":"User"});
-                        		return res.send({"code":500,"message":"Error al crear usuario","data":error});
+                        		return res.send({"code":500,"message":"Error creating user","data":error});
                             }
                      		else{
                                 sails.log.info({"code":201,"response":"OK","method":"create", "controller":"User"});
-                        		return res.send({"code":201,"message":"Creación exitosa" ,"data": [{id: user.id}]});   
+                        		return res.send({"code":201,"message":"Create success" ,"data": [{id: user.id}]});   
                             }
      				});
     			}
@@ -132,7 +132,7 @@ module.exports = {
      *   
         {
             "code": 200,
-            "message":"Eliminación exitosa",
+            "message":"delete success",
             "data": {
                 "id": "1"
             }
@@ -146,18 +146,18 @@ module.exports = {
                 .exec(function(error, exist) {      
                 if (error){
                     sails.log.error({"code":500,"response":"ERROR","method":"delete", "controller":"User"});
-                    return res.send({"code":500,"message":"Error al obtener usuario","data":error});
+                    return res.send({"code":500,"message":"Error to get user","data":error});
                 }
                 if (exist.length != 0) {
                     User.destroy({username: req.param('username')})
                         .exec(function(error,user){
                         if (error){
                             sails.log.error({"code":500,"response":"ERROR","method":"delete", "controller":"User"});
-                                return res.send({"code":500,"message":"Error al eliminar usuario","data":error});
+                                return res.send({"code":500,"message":"Error deleting user","data":error});
                         }
                         else{
                             sails.log.info({"code":200,"response":"OK","method":"delete", "controller":"User"});
-                            return res.send({"code":200,"message":"Eliminación exitosa" ,"data": [{id: user[0].id}]}); 
+                            return res.send({"code":200,"message":"Delete succes" ,"data": [{id: user[0].id}]}); 
                         }
                     });
                 }
