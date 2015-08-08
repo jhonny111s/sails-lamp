@@ -35,7 +35,7 @@ module.exports = {
   	},
 
     type_lamp:{
-      type: 'array'
+      type: 'json'
     },
 
     active : {
