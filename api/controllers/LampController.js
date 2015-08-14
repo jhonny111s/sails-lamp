@@ -167,6 +167,7 @@ module.exports = {
      *        - privated
      *        - type_lamp
      *        - username*
+
      *
             {
                 "code": 201,
