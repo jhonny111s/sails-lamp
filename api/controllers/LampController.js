@@ -98,8 +98,8 @@ module.exports = {
                     });         
                 }
                 else{
-                    sails.log.info({"code":422,"response":"WARNING","method":"finUser","controller":"Lamp"});
-                    return res.send({"code":422, "message":'User does not exist',"data":[]});
+                    sails.log.info({"code":404,"response":"WARNING","method":"finUser","controller":"Lamp"});
+                    return res.send({"code":404, "message":'User does not exist',"data":[]});
                 }
         });            
      },     
@@ -166,7 +166,7 @@ module.exports = {
      *        - active
      *        - privated
      *        - type_lamp
-     *        - username*
+     *        - username*git sta
 
      *
             {
@@ -216,14 +216,14 @@ module.exports = {
                             });
                         }
                         else {
-                            sails.log.info({"code":422,"response":"WARNING","method":"create","controller":"Lamp"});
-                            return res.send({"code":422, "message":'Lamp already exist',"data":[{id:exist[0].id}]});
+                            sails.log.info({"code":409,"response":"WARNING","method":"create","controller":"Lamp"});
+                            return res.send({"code":409, "message":'Lamp already exist',"data":[{id:exist[0].id}]});
                         }
                     });
                 }   
                  else{
-                    sails.log.info({"code":422,"response":"WARNING","method":"create","controller":"Lamp"});
-                    return res.send({"code":422, "message":'User does not exist',"data":[]});
+                    sails.log.info({"code":404,"response":"WARNING","method":"create","controller":"Lamp"});
+                    return res.send({"code":404, "message":'User does not exist',"data":[]});
                 }
             });
         }
@@ -263,30 +263,40 @@ module.exports = {
                 return res.send({"code":400, "message":'Invalid parameter',"data":[]});
             }
             else{
-                 Lamp.find( {id: req.param('id') })
-                    .exec(function(error, exist) {
-                    if (error){
-                        sails.log.error({"code":500,"response":"ERROR","method":"update","controller":"Lamp"});
-                        return res.send({"code":500,"message":"Error to get lamp","data":error});
-                    }
-                    if (exist.length != 0) {
-                        Lamp.update({id: req.param('id')},req.allParams())
-                             .exec(function(error,lamp){
-                       if (error){
-                        sails.log.error({"code":500,"response":"ERROR","method":"update","controller":"Lamp"});
-                        return res.send({"code":500,"message":"Error updating lamp","data":error});
-                       }
-                        else{
-                            sails.log.info({"code":200,"response":"OK","method":"update","controller":"Lamp"});
-                            return res.send({"code":200,"message":"Update success" ,"data": [{id:lamp[0].id}]});
-                        }
-                        });
-                    }
-                    else{
-                        sails.log.info({"code":422,"response":"WARNING","method":"update","controller":"Lamp"});
-                        return res.send({"code":422, "message":'Id does not exist',"data":[]});
-                    }
-                });
+            	User.find({username: req.param('username') })
+                	.exec(function(error,user){
+	                if (user.length!=0){
+	                    req.allParams.userId= user[0].id;
+		                 Lamp.find( {id: req.param('id') })
+		                    .exec(function(error, exist) {
+		                    if (error){
+		                        sails.log.error({"code":500,"response":"ERROR","method":"update","controller":"Lamp"});
+		                        return res.send({"code":500,"message":"Error to get lamp","data":error});
+		                    }
+		                    if (exist.length != 0) {
+		                        Lamp.update({id: req.param('id')},req.allParams())
+		                             .exec(function(error,lamp){
+		                       if (error){
+		                        sails.log.error({"code":500,"response":"ERROR","method":"update","controller":"Lamp"});
+		                        return res.send({"code":500,"message":"Error updating lamp","data":error});
+		                       }
+		                        else{
+		                            sails.log.info({"code":200,"response":"OK","method":"update","controller":"Lamp"});
+		                            return res.send({"code":200,"message":"Update success" ,"data": [{id:lamp[0].id}]});
+		                        }
+		                        });
+		                    }
+		                    else{
+		                        sails.log.info({"code":404,"response":"WARNING","method":"update","controller":"Lamp"});
+		                        return res.send({"code":404, "message":'Id does not exist',"data":[]});
+		                    }
+		                });
+					} 
+	                 else{
+	                    sails.log.info({"code":404,"response":"WARNING","method":"update","controller":"Lamp"});
+	                    return res.send({"code":404, "message":'User does not exist',"data":[]});
+	                }
+	            });    
             }        
         },
 
@@ -328,8 +338,8 @@ module.exports = {
                         });
                     }
                     else{
-                        sails.log.info({"code":422,"response":"WARNING","method":"delete","controller":"Lamp"});
-                        return res.send({"code":422, "message":'Identifier does not exist',"data":[]});
+                        sails.log.info({"code":404,"response":"WARNING","method":"delete","controller":"Lamp"});
+                        return res.send({"code":404, "message":'Identifier does not exist',"data":[]});
                     }
               }); 
         },  

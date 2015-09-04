@@ -91,8 +91,8 @@ module.exports = {
                     });         
                 }
                 else{
-                    sails.log.info({"code":422,"response":"WARNING","method":"finUser","controller":"Type"});
-                    return res.send({"code":422, "message":'User does not exist',"data":[]});
+                    sails.log.info({"code":404,"response":"WARNING","method":"finUser","controller":"Type"});
+                    return res.send({"code":404, "message":'User does not exist',"data":[]});
                 }
         });            
      },     
@@ -192,14 +192,14 @@ module.exports = {
                             });
                         }
                         else {
-                            sails.log.info({"code":422,"response":"WARNING","method":"create","controller":"type"});
-                            return res.send({"code":422, "message":'Type lamp already exist',"data":[{id:exist[0].id}]});
+                            sails.log.info({"code":409,"response":"WARNING","method":"create","controller":"type"});
+                            return res.send({"code":409, "message":'Type lamp already exist',"data":[{id:exist[0].id}]});
                         }
                     });
                 }   
                  else{
-                    sails.log.info({"code":422,"response":"WARNING","method":"create","controller":"type"});
-                    return res.send({"code":422, "message":'User does not exist',"data":[]});
+                    sails.log.info({"code":404,"response":"WARNING","method":"create","controller":"type"});
+                    return res.send({"code":404, "message":'User does not exist',"data":[]});
                 }
             });
         }
@@ -258,8 +258,8 @@ module.exports = {
                         });
                     }
                     else{
-                        sails.log.info({"code":422,"response":"WARNING","method":"update","controller":"Type"});
-                        return res.send({"code":422, "message":'Id does not exist',"data":[]});
+                        sails.log.info({"code":404,"response":"WARNING","method":"update","controller":"Type"});
+                        return res.send({"code":404, "message":'Id does not exist',"data":[]});
                     }
                 });
             }        
@@ -309,8 +309,8 @@ module.exports = {
                             });
                     }
                     else{
-                        sails.log.info({"code":422,"response":"WARNING","method":"select","controller":"Type"});
-                        return res.send({"code":422, "message":'Select Ok',"data":[]});
+                        sails.log.info({"code":404,"response":"WARNING","method":"select","controller":"Type"});
+                        return res.send({"code":404, "message":'Select Ok',"data":[]});
                     }
             });            
          },  

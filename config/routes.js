@@ -146,4 +146,35 @@ module.exports.routes = {
     action    : 'findUser'
   },
 
+
+   //recursos para comandos
+
+  'post /commands/': {
+    controller: 'CommandController',
+    action    : 'create'
+  },
+
+  'get /commands/': {
+    controller: 'CommandController',
+    action    : 'findAll'
+  },
+
+  'get /commands/:identifier': {
+  controller: 'CommandController',
+  action    : 'findOrder'
+  },
+
+   //recursos para reportes
+
+  'get /reports/:identifier': {
+    controller: 'ReportController',
+    action    : 'find'
+  },
+
+  'post /reports/:identifier': {
+    controller: 'ReportController',
+    action    : 'create'
+  },
+
+
 };

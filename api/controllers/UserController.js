@@ -120,8 +120,8 @@ module.exports = {
      				});
     			}
     			else {
-                    sails.log.info({"code":422,"response":"WARNING","method":"create", "controller":"User"});
-    				return res.send({"code":422, "message":'User already exist',"data":[{id:exist[0].id}]});
+                    sails.log.info({"code":409,"response":"WARNING","method":"create", "controller":"User"});
+    				return res.send({"code":409, "message":'User already exist',"data":[{id:exist[0].id}]});
                 }
      		});
      	},
@@ -162,8 +162,8 @@ module.exports = {
                     });
                 }
                 else {
-                    sails.log.info({"code":422,"response":"WARNING","method":"delete", "controller":"User"});
-                    return res.send({"code":422, "message":'User does not exist',"data":[]});
+                    sails.log.info({"code":404,"response":"WARNING","method":"delete", "controller":"User"});
+                    return res.send({"code":404, "message":'User does not exist',"data":[]});
                 }
             });
         }, 
