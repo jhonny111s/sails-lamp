@@ -164,6 +164,11 @@ module.exports.routes = {
   action    : 'findOrder'
   },
 
+  'put /commands/:id': {
+  controller: 'CommandController',
+  action    : 'update'
+  },
+
    //recursos para reportes
 
   'get /reports/:identifier': {
