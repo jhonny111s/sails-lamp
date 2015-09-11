@@ -102,7 +102,7 @@ module.exports = {
 	        Lamp.find({identifier: req.param('identifier') })
 	            .exec(function(error,lamp){
 	                if (error){
-	                    sails.log.error({"code":500,"response":"ERROR","method":"create","controller":"Command"});
+	                    sails.log.error({"code":500,"response":"ERROR","method":"create","controller":"Report"});
 	                    return res.send({"code":500,"message":"Error to get lamp","data":error});
 	                }
 	                if(lamp.length!=0){
@@ -127,7 +127,7 @@ module.exports = {
 	                	}
 	                }
 	                else{
-	                    sails.log.info({"code":404,"response":"WARNING","method":"finLamp","controller":"Command"});
+	                    sails.log.info({"code":404,"response":"WARNING","method":"finLamp","controller":"Report"});
 	                    return res.send({"code":404, "message":'Lamp does not exist',"data":[]});
 	                }
             	});

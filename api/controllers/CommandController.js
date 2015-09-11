@@ -69,7 +69,7 @@ module.exports = {
         });            
      }, 
 
-	   /**
+	/**
      * {SERVER_URL}:{SERVER_PORT}/commands/
      *  GET    
             {
@@ -164,17 +164,17 @@ module.exports = {
 			                		 Command.create( req.allParams() )
 			            					.exec(function(error,report){ 
 								                if (error){
-								                    sails.log.error({"code":500,"response":"ERROR","method":"create","controller":"Report"});
+								                    sails.log.error({"code":500,"response":"ERROR","method":"create","controller":"Command"});
 								                    return res.send({"code":500,"message":"Error creating report","data":error});
 								                          }
 								                else{
-								                      sails.log.info({"code":201,"response":"OK","method":"create","controller":"Report"});
+								                      sails.log.info({"code":201,"response":"OK","method":"create","controller":"Command"});
 								                      return res.send({"code":201,"message":"Create success" ,"data": [{id: report.id}]});
 								                    }
 								            });
 								}
 			                	else{
-			                		sails.log.info({"code":404,"response":"WARNING","method":"finLamp","controller":"Report"});
+			                		sails.log.info({"code":404,"response":"WARNING","method":"finLamp","controller":"Command"});
 			                    	return res.send({"code":404, "message":'malformed parameters',"data":[]});
 			                	}
 			                }
@@ -197,11 +197,6 @@ module.exports = {
      *  PUT
         actualiza una lampara por su identificador de base de datos
      *   params:
-     *        - name
-     *        - description
-     *        - location
-     *        - privated
-     *        - type_lamp
      *        - id*
      *
      *
@@ -241,17 +236,17 @@ module.exports = {
 			        	Command.update( {id: req.param('id')},req.allParams() )
 						       .exec(function(error,report){ 
 									if (error){
-										sails.log.error({"code":500,"response":"ERROR","method":"update","controller":"Report"});
+										sails.log.error({"code":500,"response":"ERROR","method":"update","controller":"Command"});
 									    return res.send({"code":500,"message":"Error updating command","data":error});
 									}
 								    else{
-										sails.log.info({"code":201,"response":"OK","method":"update","controller":"Report"});
+										sails.log.info({"code":201,"response":"OK","method":"update","controller":"Command"});
 									    return res.send({"code":201,"message":"Update success" ,"data": [{id: cmd[0].id}]});
 									}
 								});
 					}
 					else{
-						sails.log.info({"code":404,"response":"WARNING","method":"update","controller":"Lamp"});
+						sails.log.info({"code":404,"response":"WARNING","method":"update","controller":"Command"});
 		                return res.send({"code":404, "message":'Id does not exist',"data":[]});
 					}	       
 				});
