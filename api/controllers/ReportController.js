@@ -57,7 +57,9 @@ module.exports = {
      * 
      **/
    find: function(req,res){   
-        Report.find({where: {identifier:req.param('identifier')}, sort: 'finalDate DESC'})
+        if(!req.param('limit'))
+            req.allParams().limit= 100;
+        Report.find({where: {identifier:req.param('identifier')}, limit: req.param('limit'), sort: 'finalDate DESC'})
             .exec(function(error, report) {
                     if (error){
                         sails.log.error({"code":500,"response":"ERROR","method":"find","controller":"Report"});
@@ -133,6 +135,16 @@ module.exports = {
             	});
     	}
     },		
+
+
+    cosa: function(req, res){
+    Report.find().distinct( ['identifier'] )
+    .exec(function(error,lamp){
+        console.log(lamp);
+    });
+
+
+    },
 	
 	
 };

@@ -181,5 +181,10 @@ module.exports.routes = {
     action    : 'create'
   },
 
+   'get /reports/': {
+    controller: 'ReportController',
+    action    : 'cosa'
+  },
+
 
 };
