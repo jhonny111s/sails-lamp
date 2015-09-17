@@ -181,9 +181,9 @@ module.exports.routes = {
     action    : 'create'
   },
 
-   'get /reports/': {
+   'get /reports/filter/:identifier': {
     controller: 'ReportController',
-    action    : 'cosa'
+    action    : 'multiFields'
   },
 
 
