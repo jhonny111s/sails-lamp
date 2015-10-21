@@ -17,6 +17,19 @@ function verifydata(data){
 		return dict; 
 	}
 
+function addBulk(data, user){
+    var initialDate = new Date();
+    var verify = true;
+
+    var data = JSON.parse(data);
+    for (var index in data) {
+            data[index]['initialDate'] = initialDate ; 
+            data[index]['verify'] = verify ; 
+            data[index]['username'] = user;
+        }
+    return data; 
+}    
+
 module.exports = {
 
 	 /**
@@ -252,6 +265,67 @@ module.exports = {
 				});
 			}	
         },	
+
+
+        /**
+     * {SERVER_URL}:{SERVER_PORT}/commands/bulk
+     *  POST
+     *     
+        {
+    "code": 201,
+    "message": "Create bulk success",
+    "data": [
+        {
+            "id": [
+                {
+                    "parameters": {
+                        "ID": "15",
+                        "ESTADO": "1"
+                    },
+                    "identifier": "0015",
+                    "username": "test",
+                    "id": "5620616de737252b138f54d3"
+                },
+                {
+                    "parameters": {
+                        "ID": "15",
+                        "ESTADO": "1"
+                    },
+                    "identifier": "0016",
+                    "username": "test",
+                    "id": "5620616ee737252b138f54d4"
+                }, 
+                .......
+            ]
+        }
+    ]
+}
+    
+     *
+     * 
+     **/
+        bulk: function(req, res){
+                //console.log(req.param('data'));
+            if (!req.param('data') || !req.param('username')){
+                sails.log.info({"code":400,"response":"WARNING","method":"bulk","controller":"Command"});
+                return res.send({"code":400, "message":'Invalid parameter to command',"data":[]});
+            }
+            else{
+                var data = addBulk(req.param('data'),req.param('username'))
+                Command.create( data )
+                    .exec(function(error,report){ 
+                        if (error){
+                            sails.log.error({"code":500,"response":"ERROR","method":"bulk","controller":"Command"});
+                            return res.send({"code":500,"message":"Error creating commands","data":error});
+                        }
+                        else{
+                            sails.log.info({"code":201,"response":"OK","method":"bulk","controller":"Command"});
+                            return res.send({"code":201,"message":"Create bulk success" ,"data": [{id: report}]});
+                        }
+                    });
+                }
+            },
+
 
 };
 

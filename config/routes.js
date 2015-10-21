@@ -112,6 +112,11 @@ module.exports.routes = {
     action    : 'findUser'
   },
 
+   'get /stat/lamps/': {
+    controller: 'LampController',
+    action    : 'stat'
+  },
+
 
 
  //recursos para tipos de lamparas 
@@ -169,6 +174,10 @@ module.exports.routes = {
   action    : 'update'
   },
 
+  'post /commands/bulk/': {
+  controller: 'CommandController',
+  action    : 'bulk'
+  },
    //recursos para reportes
 
   'get /reports/:identifier': {
