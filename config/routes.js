@@ -117,6 +117,10 @@ module.exports.routes = {
     action    : 'stat'
   },
 
+ 'get /index/': {
+    controller: 'LampController',
+    action    : 'index'
+  },
 
 
  //recursos para tipos de lamparas 
