@@ -62,7 +62,7 @@ module.exports = {
                     return res.send({"code":500,"message":"Error to get lamp","data":error});
                 }
                 if(lamp.length!=0){
-                    Command.find({identifier: req.param('identifier'), order: true },{parameter:true, value: true, _id: false})
+                    Command.find({identifier: req.param('identifier')}).sort('initialDate DESC')
                         .exec(function(error, cmd) {
                         if (error){
                             sails.log.error({"code":500,"response":"ERROR","method":"findOrder","controller":"Command"});
