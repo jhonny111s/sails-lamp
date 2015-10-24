@@ -155,7 +155,9 @@ module.exports = {
                     return res.send({"code":500,"message":"Error to get intersect","data":err});
                 }
                 sails.log.info({"code":200,"response":"OK","method":"multiFields","controller":"Report"});
-                return res.send({"code":200, "message":'intersect fields',"data":intersectField(results)});
+                if(ar.length === results.length)
+                   return res.send({"code":200, "message":'intersect fields',"data":intersectField(results)});
+                 return res.send({"code":200, "message":'intersect fields',"data":[]});
               });
             });
         }

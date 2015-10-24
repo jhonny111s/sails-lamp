@@ -17,7 +17,7 @@ function verifydata(data){
 		return dict; 
 	}
 
-function addBulk(data, user){
+function addBulk(data){
     var initialDate = new Date();
     var verify = true;
 
@@ -25,7 +25,6 @@ function addBulk(data, user){
     for (var index in data) {
             data[index]['initialDate'] = initialDate ; 
             data[index]['verify'] = verify ; 
-            data[index]['username'] = user;
         }
     return data; 
 }    
@@ -305,13 +304,12 @@ module.exports = {
      * 
      **/
         bulk: function(req, res){
-                //console.log(req.param('data'));
-            if (!req.param('data') || !req.param('username')){
+            if (!req.param('data')){
                 sails.log.info({"code":400,"response":"WARNING","method":"bulk","controller":"Command"});
                 return res.send({"code":400, "message":'Invalid parameter to command',"data":[]});
             }
             else{
-                var data = addBulk(req.param('data'),req.param('username'))
+                var data = addBulk(req.param('data'))
                 Command.create( data )
                     .exec(function(error,report){ 
                         if (error){
