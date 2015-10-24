@@ -182,6 +182,7 @@ module.exports = {
      * 
      **/
      create: function(req,res){
+        console.log(req.allParams());
         if(!req.param('active'))
             req.allParams().active= true;
         if(!req.param('privated'))
@@ -381,6 +382,24 @@ module.exports = {
        },   
 
 
-	
+       stat: function(req, res){
+            Lamp.native(function(err, collection) {
+                if (err) return res.serverError(err);
+                collection.aggregate(
+                    [{'$match':{userId: '$userId'}},
+                      {'$group': {identifier: '$identifier'}}]
+
+                    ).toArray(function (error, lamp) {
+                    if (error){
+                        sails.log.error({"code":500,"response":"ERROR","method":"select","controller":"Lamp"});
+                        return res.send({"code":500,"message":"Error to get lamps","data":error});
+                    }
+                    else{
+                        sails.log.info({"code":200,"response":"OK","method":"select","controller":"Lamp"});
+                        return res.send({"code":200,"message":"Select ok" ,"data": lamp});
+                    }
+                });
+            });
+       },   
 };
 
