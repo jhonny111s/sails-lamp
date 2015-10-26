@@ -35,6 +35,8 @@ module.exports = {
      * {SERVER_URL}:{SERVER_PORT}/commands/:identifier
      * GET
      * obtiene las ordenes asignadas a una lampara
+     * params
+     *    verify
      *  
             {
 			    "code": 200,
@@ -55,6 +57,8 @@ module.exports = {
      * 
      **/
      findOrder: function(req,res){
+        console.log(req.param('verify'));
+        var para= req.param('verify') ? {identifier: req.param('identifier'),verify: req.param('verify')} : {identifier: req.param('identifier')};
         Lamp.find({identifier: req.param('identifier') })
                 .exec(function(error,lamp){
                 if (error){
@@ -62,7 +66,7 @@ module.exports = {
                     return res.send({"code":500,"message":"Error to get lamp","data":error});
                 }
                 if(lamp.length!=0){
-                    Command.find({identifier: req.param('identifier')}).sort('initialDate DESC')
+                    Command.find(para).sort('initialDate DESC')
                         .exec(function(error, cmd) {
                         if (error){
                             sails.log.error({"code":500,"response":"ERROR","method":"findOrder","controller":"Command"});
