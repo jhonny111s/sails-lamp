@@ -1,16 +1,17 @@
 //socket para comunicar constantemente el reporte de las lamparas
 
-/*var WebSocketServer = require('ws').Server
+var WebSocketServer = require('ws').Server
 var wss = new WebSocketServer({ port: 1447 });
  
  //coneccion con el cliente
 wss.on('connection', function connection(ws) {
   var myId = false;
+  console.log(ws._socket);
  //una vez se establezca la conexion se esperan los datos 
  //enviados por el cliente 
   ws.on('message', function incoming(message) {
     message = (JSON.parse(message));
-  	if(message.token === 'nose')
+  	if(message.token === 'nose3')
   		console.log('ENTRO');
     //console.log('received: %s', message.token);
   });
@@ -23,39 +24,24 @@ wss.on('connection', function connection(ws) {
     });
        
     var id = setInterval(function() {
-    	temp = {}//sendParam('002');
-      console.log(temp);
-      console.log(JSON.stringify(temp));
-             ws.send( JSON.stringify( temp ) ); 
+        sendParam('002',ws);
      }, 400);
 
 
-});*/
+});
 
-// index : func()`+{
-// 	sails.controllers.lampara.findAll()
-// 	lamapra.find()
-// }
 
-// function callback(cosa){
-//   return cosa
-// }
-
-// sendParam(iden,function(iden,callback){  
-//         result ={} 
-//         limit= 3;
-//         Report.find({where: {identifier:iden}, limit: limit, sort: 'finalDate DESC'})
-//             .exec(function(error, report) {
-//                     if (error){
-//                       callback=result
-//                     }
-//                      else{
-//                         callback=report
-//                         return callback
-                      
-//                         sails.log.info({"code":200,"response":"OK","method":"findAll","controller":"Report"});
-                      
-//                     }
-//             });
-//      });
+function sendParam(iden,ws){  
+        result ={} 
+        Report.find({where: {identifier:iden}, limit: '1', sort: 'finalDate DESC'})
+            .exec(function(error, report) {
+                    if (error){
+                       ws.send( JSON.stringify(result ) );
+                    }
+                     else{
+                        result=report
+                        ws.send( JSON.stringify(result ) );                      
+                    }
+            });
+     };
  
