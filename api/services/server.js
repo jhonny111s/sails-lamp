@@ -5,43 +5,76 @@ var wss = new WebSocketServer({ port: 1447 });
  
  //coneccion con el cliente
 wss.on('connection', function connection(ws) {
-  var myId = false;
-  console.log(ws._socket);
+  var myId = true;
+  var id;
+  //console.log(ws._socket.address());
  //una vez se establezca la conexion se esperan los datos 
  //enviados por el cliente 
   ws.on('message', function incoming(message) {
+    console.log(message);
     message = (JSON.parse(message));
-  	if(message.token === 'nose3')
-  		console.log('ENTRO');
-    //console.log('received: %s', message.token);
+    var ip = ws._socket.address();
+    var contra = ip.address + message.username
+  	if(message.token === contra && (myId)){
+      myId = false;
+        id = setInterval(function() {
+        sendParam(message.identifier,ws);
+         }, 20000);
+      //console.log(message.parameter);
+      //sendParam(message.identifier,ws); 
+    }
+     
   });
 
+   ws.send("salut");
+
  ws.on('close', function() {
- 	    clearInterval(id);
-        //var client_info = {};
-        //var toSend      = false;
+ 	     clearInterval(id);
         console.log('Stop Client');
     });
        
-    var id = setInterval(function() {
-        sendParam('002',ws);
-     }, 400);
-
-
 });
 
 
+
+
 function sendParam(iden,ws){  
-        result ={} 
-        Report.find({where: {identifier:iden}, limit: '1', sort: 'finalDate DESC'})
-            .exec(function(error, report) {
-                    if (error){
-                       ws.send( JSON.stringify(result ) );
-                    }
-                     else{
-                        result=report
-                        ws.send( JSON.stringify(result ) );                      
-                    }
+    result ={} 
+    Report.native(function(err, collection) {
+      var ar= argu(iden);
+      if (err) return res.serverError(err);
+      collection.aggregate(
+         [
+          { '$match' : {'$or': ar}  },
+          { '$sort': { finalDate: -1} },
+          { '$group' : { _id : "$identifier",
+                         parameters: { '$first': "$parameters"}, 
+                         finalDate:{'$first': "$finalDate"} 
+                        }}
+        ]).toArray(function (err, results) {
+                if (err){
+                    ws.send( JSON.stringify(result ) );
+                }
+                else
+                   ws.send( JSON.stringify(results ) ); 
+              });
             });
      };
  
+
+  /**
+     Función para convertir la entrada de los parámetros 
+     como los necesita multifield
+     data   = identifier1,identifier2,identifierN
+     return = [{'identifier': identifier1}, {'identifier': identifierN}]
+    **/
+    function argu(data){
+        var array =[]
+        k = data.split(',')
+            for (var name in k) {
+                var iden={}
+                iden['identifier'] = k[name]
+                array.push(iden)
+            }
+        return array
+    }
