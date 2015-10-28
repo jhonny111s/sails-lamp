@@ -63,18 +63,18 @@ module.exports.connections = {
   * Run: npm install sails-mongo                                             *
   *                                                                          *
   ***************************************************************************/
-/* mongoProduction: {
+ mongoProduction: {
     adapter: 'sails-mongo',
     url: process.env.MONGOLAB_URI, //|| 'mongodb://localhost:27017/prueba',
     schema : true
-},*/
+},
 
-mongoLocal: {
+/*mongoLocal: {
    adapter: 'sails-mongo',
     url: 'mongodb://localhost:27017/prueba',
     schema : true
 }
-
+*/
 
   /***************************************************************************
   *                                                                          *
