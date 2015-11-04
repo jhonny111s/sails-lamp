@@ -162,6 +162,58 @@ module.exports = {
             });
         }
     },
+
+
+     /**
+     * {SERVER_URL}:{SERVER_PORT}/statistics/report/
+     * GET
+     *    
+        {
+            "code": 200,
+            "message": "Success statistics",
+            "data": [
+                {
+                    "_id": "002",
+                    "total": 1
+                },
+                {
+                    "_id": "005",
+                    "total": 2
+                },
+                {
+                    "_id": "07346",
+                    "total": 5
+                },
+                {
+                    "_id": "0012",
+                    "total": 18
+                }
+            ]
+        }
+    
+     *
+     * 
+     **/
+       statistic: function(req, res){
+                            Report.native(function(err, collection) {
+                            if (err) return res.serverError(err);
+                            collection.aggregate([
+                                    { '$group': { _id: "$identifier", 
+                                                   total: {'$sum': 1}, 
+                                                                         
+                                                }
+                                    }]).toArray(function (error, lamp) {
+                                if (error){
+                                    sails.log.error({"code":500,"response":"ERROR","method":"statistics","controller":"Report"});
+                                    return res.send({"code":500,"message":"Error to get statistics","data":error});
+                                }
+                                else{
+                                    sails.log.info({"code":200,"response":"OK","method":"statistics","controller":"Report"});
+                                    return res.send({"code":200,"message":"Success statistics" ,"data": lamp});
+                                }
+                            });
+                        });
+                    }
 	
 	
 };

@@ -315,6 +315,80 @@ module.exports = {
             });            
          },  
 
+
+          /**
+     * {SERVER_URL}:{SERVER_PORT}/statistics/types/
+     * GET
+     *    
+        params: 
+           - username 
+
+       {
+            "code": 200,
+            "message": "Success statistics",
+            "data": [
+                {
+                    "_id": "559f44c2dbf2d06318b48b59",
+                    "total": 5,
+                    "privatedtrue": 4,
+                    "privatedfalse": 1,
+                    "activetrue": 4,
+                    "activefalse": 1
+                }
+            ]
+}
+    
+     *
+     * 
+     **/
+       statistic: function(req, res){
+        var match;
+        if (!req.param('username')){
+            sails.log.info({"code":400,"response":"WARNING","method":"statistics","controller":"Type"});
+            return res.send({"code":400, "message":'Invalid parameter',"data":[]});
+        }
+        else{
+            User.find({username: req.param('username') })
+                .exec(function(error,user){
+                    if(user.length !==0){
+                        match = {'$match': {userId: user[0].id}};          
+                               console.log(user[0].id);
+                        Lamp.native(function(err, collection) {
+                            if (err) return res.serverError(err);
+                            collection.aggregate([
+                                     match,
+                                    { '$group': { _id: "$userId", 
+                                                   total: {'$sum': 1}, 
+                                                   privatedtrue: { "$sum": { "$cond": [ "$privated", 1, 0 ]}},
+                                                   privatedfalse: { "$sum": {
+                                                                         "$cond": [ { "$eq": [ "$privated", false ] }, 1, 0 ]
+                                                                        }},
+                                                   activetrue: { "$sum": { "$cond": [ "$active", 1, 0 ]}},  
+                                                   activefalse: { "$sum": {
+                                                                         "$cond": [ { "$eq": [ "$active", false ] }, 1, 0 ]  
+                                                                         }},                             
+                                                }
+                                    }]).toArray(function (error, lamp) {
+                                if (error){
+                                    sails.log.error({"code":500,"response":"ERROR","method":"statistics","controller":"Type"});
+                                    return res.send({"code":500,"message":"Error to get statistics","data":error});
+                                }
+                                else{
+                                    sails.log.info({"code":200,"response":"OK","method":"statistics","controller":"Type"});
+                                    return res.send({"code":200,"message":"Success statistics" ,"data": lamp});
+                                }
+                            });
+                        });
+                    }
+                    else{
+                        sails.log.info({"code":404,"response":"WARNING","method":"statistics","controller":"Type"});
+                        return res.send({"code":404, "message":'User does not exist',"data":[]});
+                    }
+                });
+            }
+       }
+
+
 	
 
 };

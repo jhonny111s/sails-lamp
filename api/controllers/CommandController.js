@@ -329,6 +329,80 @@ module.exports = {
             },
 
 
+
+            /**
+     * {SERVER_URL}:{SERVER_PORT}/statistics/command/
+     * GET
+     *    
+        params: 
+           - username 
+
+        {
+            "code": 200,
+            "message": "Success statistics",
+            "data": [
+                {
+                    "_id": "006",
+                    "lamps": 2,
+                    "verifytrue": 2,
+                    "verifyfalse": 0
+                },
+                {
+                    "_id": "005",
+                    "lamps": 4,
+                    "verifytrue": 3,
+                    "verifyfalse": 1
+                }, .........
+            ]
+}
+    
+     *
+     * 
+     **/
+       statistic: function(req, res){
+        var match;
+        if (!req.param('username')){
+            sails.log.info({"code":400,"response":"WARNING","method":"statistics","controller":"Command"});
+            return res.send({"code":400, "message":'Invalid parameter',"data":[]});
+        }
+        else{
+            User.find({username: req.param('username') })
+                .exec(function(error,user){
+                    if(user.length !==0){
+                        match = {'$match': {username: user[0].username}};          
+                               console.log(user[0].username);
+                        Command.native(function(err, collection) {
+                            if (err) return res.serverError(err);
+                            collection.aggregate([
+                                     match,
+                                    { '$group': { _id: "$identifier", 
+                                                   lamps: {'$sum': 1}, 
+                                                   verifytrue: { "$sum": { "$cond": [ "$verify", 1, 0 ]}},
+                                                   verifyfalse: { "$sum": {
+                                                                         "$cond": [ { "$eq": [ "$verify", false ] }, 1, 0 ]
+                                                                        }},                             
+                                                }
+                                    }]).toArray(function (error, lamp) {
+                                if (error){
+                                    sails.log.error({"code":500,"response":"ERROR","method":"statistics","controller":"Command"});
+                                    return res.send({"code":500,"message":"Error to get statistics","data":error});
+                                }
+                                else{
+                                    sails.log.info({"code":200,"response":"OK","method":"statistics","controller":"Command"});
+                                    return res.send({"code":200,"message":"Success statistics" ,"data": lamp});
+                                }
+                            });
+                        });
+                    }
+                    else{
+                        sails.log.info({"code":404,"response":"WARNING","method":"statistics","controller":"Lamp"});
+                        return res.send({"code":404, "message":'User does not exist',"data":[]});
+                    }
+                });
+            }
+       }
+
+
 };
 
 

@@ -74,6 +74,11 @@ module.exports.routes = {
     action    : 'delete'
   },
 
+  'get /statistics/users/': {
+    controller: 'UserController',
+    action    : 'statistic'
+  },
+
 
 
 // recursos para las lamparas
@@ -112,9 +117,9 @@ module.exports.routes = {
     action    : 'findUser'
   },
 
-   'get /stat/lamps/': {
+   'get /statistics/lamps/': {
     controller: 'LampController',
-    action    : 'stat'
+    action    : 'statistic'
   },
 
  // 'get /index/': {
@@ -155,6 +160,12 @@ module.exports.routes = {
     action    : 'findUser'
   },
 
+  'get /statistics/types/': {
+    controller: 'TypeController',
+    action    : 'statistic'
+  },
+
+
 
    //recursos para comandos
 
@@ -182,6 +193,13 @@ module.exports.routes = {
   controller: 'CommandController',
   action    : 'bulk'
   },
+
+  'get /statistics/command/': {
+    controller: 'CommandController',
+    action    : 'statistic'
+  },
+
+
    //recursos para reportes
 
   'get /reports/:identifier': {
@@ -197,6 +215,11 @@ module.exports.routes = {
    'get /reports/filter/:identifier': {
     controller: 'ReportController',
     action    : 'multiFields'
+  },
+
+   'get /statistics/report/': {
+    controller: 'ReportController',
+    action    : 'statistic'
   },
 
 

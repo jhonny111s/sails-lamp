@@ -167,8 +167,57 @@ module.exports = {
                 }
             });
         }, 
-      
 
+
+    /**
+     * {SERVER_URL}:{SERVER_PORT}/statistics/users/
+     * GET
+     *    
+        {
+        "code": 200,
+        "message": "Success statistics",
+        "data": [
+            {
+                "_id": "null",
+                "total": 15,           //total de usuarios
+                "admintrue": 1,        //cantidad usuarios administrativos
+                "adminfalse": 8,       //cantidad usuarios normales
+                "activetrue": 2,       //cantidad usuarios activos
+                "activefalse": 1
+            }
+        ]
+}
+    
+     *
+     * 
+     **/
+       statistic: function(req, res){
+                            User.native(function(err, collection) {
+                            if (err) return res.serverError(err);
+                            collection.aggregate([
+                                    { '$group': { _id: "null", 
+                                                   total: {'$sum': 1}, 
+                                                   admintrue: { "$sum": { "$cond": [ "$admin", 1, 0 ]}},
+                                                   adminfalse: { "$sum": {
+                                                                         "$cond": [ { "$eq": [ "$admin", false ] }, 1, 0 ]
+                                                                        }},
+                                                   activetrue: { "$sum": { "$cond": [ "$active", 1, 0 ]}},  
+                                                   activefalse: { "$sum": {
+                                                                         "$cond": [ { "$eq": [ "$active", false ] }, 1, 0 ]  
+                                                                         }},                             
+                                                }
+                                    }]).toArray(function (error, lamp) {
+                                if (error){
+                                    sails.log.error({"code":500,"response":"ERROR","method":"statistics","controller":"User"});
+                                    return res.send({"code":500,"message":"Error to get statistics","data":error});
+                                }
+                                else{
+                                    sails.log.info({"code":200,"response":"OK","method":"statistics","controller":"User"});
+                                    return res.send({"code":200,"message":"Success statistics" ,"data": lamp});
+                                }
+                            });
+                        });
+                    }
 
 
 	
