@@ -1,7 +1,15 @@
 //socket para comunicar constantemente el reporte de las lamparas
+var http = require("http")
+var express = require("express")
+var app = express()
+var port = process.env.PORT || 5000
+
+var server = http.createServer(app)
+server.listen(port)
 
 var WebSocketServer = require('ws').Server
 var wss = new WebSocketServer({ port: 5000 });
+
  
  console.log("ENTRO SOCKET");
  //coneccion con el cliente
