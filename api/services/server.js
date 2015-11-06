@@ -1,13 +1,14 @@
 //socket para comunicar constantemente el reporte de las lamparas
 
 var WebSocketServer = require('ws').Server
-var wss = new WebSocketServer({ port: 1447 });
+var wss = new WebSocketServer({ port: 5000 });
  
+ console.log("ENTRO SOCKET");
  //coneccion con el cliente
 wss.on('connection', function connection(ws) {
   var myId = true;
   var id;
-  //console.log(ws._socket.address());
+  console.log(ws._socket.address());
  //una vez se establezca la conexion se esperan los datos 
  //enviados por el cliente 
   ws.on('message', function incoming(message) {
