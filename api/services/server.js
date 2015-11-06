@@ -1,6 +1,6 @@
 //socket para comunicar constantemente el reporte de las lamparas
 
-var WebSocketServer = require('wss').Server
+var WebSocketServer = require('ws').Server
 var wss = new WebSocketServer({ port: 3003 });
  
  console.log("ENTRO SOCKET");
