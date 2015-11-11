@@ -375,7 +375,7 @@ module.exports = {
                             if (err) return res.serverError(err);
                             collection.aggregate([
                                      match,
-                                    { '$group': { _id: "$identifier", 
+                                    { '$group': { _id: "null", 
                                                    lamps: {'$sum': 1}, 
                                                    verifytrue: { "$sum": { "$cond": [ "$verify", 1, 0 ]}},
                                                    verifyfalse: { "$sum": {
