@@ -19,7 +19,7 @@ function verifydata(data){
 
 function addBulk(data){
     var initialDate = new Date();
-    var verify = true;
+    var verify = false;
 
     var data = JSON.parse(data);
     for (var index in data) {
