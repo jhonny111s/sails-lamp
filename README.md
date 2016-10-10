@@ -117,9 +117,9 @@ Http status
 Como medida de seguridad todo recurso debe hacer uso del parámetro &quot;token&quot; el cual es una llave privada que permitirá su ejecución.
 
 
-| USER |
-|---------|------|------|-----|-------|
+USER 
 | Recurso | POST | PUT | GET | DELETE |
+|---------|------|------|-----|-------|
 | /users/ | Nada | Nada | Obtiene los datos de todos los usuarios | nada |
 | /users/myusername | Crea un nuevo usuario | nada | Obtiene los datos del usuario unespecifico | Elimina el usuario |
 
@@ -145,8 +145,9 @@ petición delete para eliminar un usuario por su nombre
 
 
 
-| LAMP |
+LAMP 
 | Recurso | POST | PUT | GET | DELETE |
+|---------|------|------|-----|-------|
 | /lamps/ | Crea una lampara, se esperan los parámetros a guardar | Nada | Obtiene los datos de todas las lamparas | nada |
 | /lamps/identificador | nada | Actualiza una lampara, se esperan los parámetros a actualizar | Obtiene los datos de una lampara especifica. | Elimina una lampara |
 
