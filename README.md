@@ -118,6 +118,7 @@ Como medida de seguridad todo recurso debe hacer uso del parámetro &quot;token&
 
 
 | USER |
+|---------|------|------|-----|-------|
 | Recurso | POST | PUT | GET | DELETE |
 | /users/ | Nada | Nada | Obtiene los datos de todos los usuarios | nada |
 | /users/myusername | Crea un nuevo usuario | nada | Obtiene los datos del usuario unespecifico | Elimina el usuario |
