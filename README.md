@@ -40,7 +40,7 @@ Ahora vamos hacer algunas configuraciones para que funcione en Heroku: 
 Para hacer algunas pruebas con el ORM no es necesario trabajar con ninguna base de datos ya que sails provee una base de datos local, sin embargo vamos a hacer algunas pruebas con los adaptadores de postgres y  mongo por lo tanto lo primero que hay que hacer es agregar al archivo package.json la línea : "sails-postgresql": "0.10.0-rc4" (o npm install sails-postgresql --save, para instalar la ultima versión) y en concreto se eligió esta versión porque hasta la fecha ninguna otra parece manejar bien los schemas de base de datos. En el caso de mongo se instalaría desde consola con npm install sails-mongo.
 
 Todo lo que se encuentre en el package.js será instalado si ejecutamos el comando "npm install", luego debemos crear las conexiones a base de datos, tantas como el proyecto se lo exija, para el ejemplo basta con crear una conexión local a postgresql y/o una a mongo en config/connections.js así: 
-
+```
 posgrestLocal: { 
     adapter: 'sails-postgresql', 
     host: 'localhost', 
@@ -49,15 +49,15 @@ posgrestLocal: { 
     password: 'mypass', 
     database: 'mydb' 
   },
-
+```
 Según las pruebas que se han hecho con este adapter y el ORM se crean las tablas y sus campos muy bien en el esquema publico (por defecto) pero si se desea trabajar con otros esquema parece que no lo permite y aun no he encontrado una solución, sin embargo si ya tenemos creada nuestra base de datos con sus diferentes esquemas este adaptador en concreto nos permite hacer las consultas 
- 
+``` 
 MongoLocal: { 
     adapter: 'sails-mongo', 
     url : 'mongodb://myuser:mypass@localhost:27017/mydb', 
     schema : true 
   },
-
+```
 Con mongo es muy importante tenerlo bien instalado y ponerlo a correr con el comando mongod  para que no nos resulten problemas. La conexión se hace por medio de la url y esto también puede ser aplicado en postgres donde los dos primeros argumentos pueden ser omitidos si estamos en un ordenador personal y no se ha configurado el usuario de acceso ('mongodb://localhost:27017/mydb').
 
 Ahora para hacer pruebas podemos hacer dos cosas, la primera es instanciar la conexión en config/models.js y agregar la linea: ` connection: 'MongoLocal' `(la que se creo en connections) esto es para que cualquier modelo que creemos utilice esta conexión por defecto. Otras configuraciones que podemos hacer en este archivo son:
@@ -82,110 +82,6 @@ Ahora si vamos a comenzar a desarrollar y para eso vamos a crear un modelo y un 
 
 Para probar el funcionamiento desde la consola y dentro de la carpeta del proyecto
 escribimos sails lift –prod  o sails lift –dev para probar nuestras distintas configuraciones
-
-
-
-///-------
-en blueprints para la seguridad usamos la siguiente linea:
- rest: false,
- shortcuts: false,
- prefix: '',
-
-
-// http status
-
-500  error en el servidor para dar respuesta
-400 parametro invalido o recurso existente
-401 autenticacion fallida
-200 transaccion exitosa ctualizacion, eliminacion obtencion de datos
-201 creacion exitosa
-
-
-
-Fecha 18/06/2015
-
-Iniciar con sail
-
-Para comenzar a trabajar con sails es necesario tener apunto nuestro sistema operativo con paquetes necesarios, en esta documento nos concentraremos en ubuntu 15.04 de 64 bits.
-
-Los requerimientos básicos que debemos tener en cuenta son los siguientes y entre paréntesis se encuentra mi eleccion:
-
-- .una base de datos ( [postgresql](https://help.ubuntu.com/community/PostgreSQL),mongo)
-- .un gestor de base de datos ( [valentina studio](https://www.valentina-db.com/en/developer/database/download-valentina-database-adk))
-- .un editor de texto ( [sublimeText](http://www.sublimetext.com/3))
-- .cuenta en [heroku](https://dashboard.heroku.com/)
-- .instalaciónde [heroku toolbet](https://toolbelt.heroku.com/)
-
-Debemos comenzar instalando el paquete npm  &quot;sudo apt-get install npm&quot;, el cual es un administrador de paquetes el cual nos será de mucha utilidad connodejs. el siguiente paso es installar nodejs &quot;sudo apt-get nodejs-legacy&quot; y así obtendremos la ultima versión estable y con muchas de las correcciones de la comunidad, a continuación instalamos sails&quot;sudo npm -g install sails&quot;
-
-Ahora podemos hacer un &quot;sudo apt-get update&quot; para refrescary actualizar nuestros paquetes y comprobar que no surja ningún error.
-
-por ahora para comprobar que sails este funcionando, vamos a crear un proyecto nuevo desde la terminal por ejemplo enDocumentos &quot;sails new nombre-proyecto&quot;, ingresamos al directorio creado &quot;cd nombre-proyecto&quot;y ejecutamos el comando &quot;sails lift&quot;, si todo estuvo bien nos debe aparecer en la consola un barquito sin ningún warning o error y además podremos visualizar una pagina en la siguiente Url  [http://localhost:1337](http://localhost:1337/)
-
-Ahora vamos hacer algunas configuraciones para que funcione en [Heroku](http://es.wikipedia.org/wiki/Heroku):
-
-1. definir en el package.json la versión de node (versión estable existente) con que estamos trabajando, así heroku sabrá cual utilizar &quot;&quot;engines&quot;:{&quot;node&quot;:&quot;0.12.4&quot;},&quot;
-
-1. se crea un archivo llamado Procfile con &quot;touch Procfile&quot; desde la consola, este se encarga de decirle a heroku que vamos a correr una aplicación node, para eso abrimos el archivo y agregamos la siguiente linea : &quot;web: node app.js&quot;
-
-1. ahora creamos nuestro Git con &quot;git init&quot; y agregamos los archivos que se crearon con la instalación de sails con &quot;git add .&quot; y finalmente creamos un comentario descriptivo por ejemplo git commit -m &quot;subiendo archivos iniciales&quot;
-
-1. ahora vamos a subir los archivos a heroku, para eso debemos primero loguearnos con &quot;heroku login&quot;, para crear la app &quot;heroku create nombre-proyecto&quot;  una vez estemos aquí y si todo ha ido bien debemos crear la variable desde consola que indica que estamos en un entorno de producción &quot;heroku config:set NODE\_ENV=production&quot;
-
-1. finalmente subimos nuestra aplicación con &quot;git push heroku master&quot; y al finalizar se proporcionará un enlace donde se ha desplegado el proyecto.
-
-
-
-Pruebas de configuración y funcionamiento
-
-Para hacer algunas pruebas con el [ORM](http://www.tuprogramacion.com/glosario/que-es-un-orm/)no es necesario trabajar con ninguna base de datos ya que sails provee una base de datos local, sin embargo vamos a hacer algunas pruebas con los adaptadores de postgres y  mongopor lo tanto lo primero que hay que hacer es agregar al archivo package.json la línea : &quot;sails-postgresql&quot;: &quot;0.10.0-rc4&quot; (o npm install sails-postgresql - -save, para instalar la ultima versión) y en concreto se eligió esta versión porque hasta la fecha ninguna otra parece manejar bien los schemas de base de datos. En el caso de mongo se instalaría desde consola con npm install sails-mongo.
-
-Todo lo que se encuentre en el package.js será instalado si ejecutamos el comando &quot;npm install&quot;, luego debemos crear las conexiones a base de datos, tantas como el proyecto se lo exija, para el ejemplo basta con crear una conexión local a postgresql y/o una a mongo en **config/connections.js** así:
-
-posgrestLocal: {
-    adapter: &#39;sails-postgresql&#39;,
-    host: &#39;localhost&#39;,
-    user: &#39;postgres&#39;,
-    port: 5432,
-    password: &#39;mypass&#39;,
-    database: &#39;mydb&#39;
-  },
-
-Según las pruebas que se han hecho con este adapter y el ORM se crean las tablas y sus campos muy bien en el esquema publico (por defecto) pero si se desea trabajar con otros esquema parece que no lo permite y aun no he encontrado una solución, sin embargo si ya tenemos creada nuestra base de datos con sus diferentes esquemas este adaptador en concreto nos permite hacer las consultas
-
-MongoLocal: {
-    adapter: &#39;sails-mongo&#39;,
-    url : &#39;mongodb://myuser:mypass@localhost:27017/mydb&#39;,
-    schema : true
-  },
-
-Con mongo es muy importante tenerlo bien instalado y ponerlo a correr con el comando mongod  para que no nos resulten problemas. La conexión se hace por medio de la url y esto también puede ser aplicado en postgres donde los dos primeros argumentos pueden ser omitidos si estamos en un ordenador personal y no se ha configurado el usuario de acceso (&#39;mongodb://localhost:27017/mydb&#39;).
-
-Ahora para hacer pruebas podemos hacer dos cosas, la primera es instanciar la conexión en **config/models.js** y agregar la linea: &quot; connection: &#39;MongoLocal&#39; &quot;(la que se creo en connections) esto es para que cualquier modelo que creemos utilice esta conexión por defecto. Otras configuraciones que podemos hacer en este archivo son:
-
-- migrate : &#39;alter&#39;,    =&gt; aquí le estamos diciendo a nuestro adaptador que puede hacer con la base de datos, usamos &quot;alter&quot; para agregar o borrar en el esquema; lo usamos para hacer pruebas en modo desarrollador, &quot;drop&quot; para borrar las tablas y volver a crearlas eliminando toda la información y usamos &quot;safe&quot; para manipular información sin afectar nada, este es el que se usa cuando el aplicativo este en producción.
-- autoCreatedAt   : false, autoUpdatedAt   : false,  =&gt; por defecto el ORM cuando crea una tabla le agrega estos campos, sino los queremos utilizar usamos estas lineas.
-
-Lo siguiente para hacer pruebas locales es configurar **conf/local.js** donde le vamos a decir porque puerto correr y en que modo, estas lineas ya se encuentran y solo hay que descomentarlas:
-
-port: process.env.PORT || 1337,
-
-environment: process.env.NODE\_ENV || &#39;development&#39;,
-
-nota: como pueden notar hay un process.env seguido de algo en mayúsculas, estas son nuestras variables de ambiente, muy importantes a la hora de trabajar en producción, mas adelante se explicaran para usarlas con heroku. Por ahora debemos saber que en **config/env** tenemos dos archivos que sails usa para manejar estas variables según el entorno de prueba que se desee: development.js y production.js donde debemos decirle que conexión vamos a usar, asi
-
-models: {
-
-     connection: &#39;mongoLocal&#39;
-
-   },
-
-Ahora si vamos a comenzar a desarrollar y para eso vamos a crear un modelo y un controlador con un nombre representativo, como ejemplo vamos a crear Usuario. Existen dos maneras de crear esto la primera es crear el modelo y el controller por aparte con los siguientes comandos: &quot;sails model generate nombremodelo&quot; y &quot;sails controller generate nombrecontroller&quot;  o simplemente usando el &quot;sails api generate nombre&quot;.
-
-Para probar el funcionamiento desde la consola y dentro de la carpeta del proyecto
-
-escribimos sails lift –prod  o sails lift –dev para probar nuestras distintas configuraciones
-
 
 
 ///-------
@@ -223,6 +119,8 @@ Como medida de seguridad todo recurso debe hacer uso del parámetro &quot;token&
 | Recurso | POST | PUT | GET | DELETE |
 | /users/ | Nada | Nada | Obtiene los datos de todos los usuarios | nada |
 | /users/myusername | Crea un nuevo usuario | nada | Obtiene los datos del usuario unespecifico | Elimina el usuario |
+
+
 
 
 
