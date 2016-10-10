@@ -1,13 +1,16 @@
 # serversails
 
-a [Sails](http://sailsjs.org) application
+Aplicación para construir una api rest sencilla y lista para desplegarse en Heroku
 
 # .env
 
+El archivo .env es necesario para que la aplicación funcione ya que aqui se definen las variables de entorno.
+
+```
 NODE_ENV         = development
 MONGOLAB_URI     = 'mongodb://user:password@urldatabase:port/database'
 APPROVED_API_KEY = '123456'
-
+```
 
 # Iniciar con sail
 
@@ -84,20 +87,19 @@ Para probar el funcionamiento desde la consola y dentro de la carpeta del proyec
 escribimos sails lift –prod  o sails lift –dev para probar nuestras distintas configuraciones
 
 
-///-------
 
-en blue prints para la seguridad usamos la siguiente linea:
-
+En blue prints para la seguridad usamos la siguiente linea:
+```
  rest: false,
 
  shortcuts: false,
 
  prefix: &#39;&#39;,
+```
 
 
-
-// http status
-
+Http status
+```
 500  error en el servidor para dar respuesta
 
 400 parametro invalido o recurso existente
@@ -107,15 +109,15 @@ en blue prints para la seguridad usamos la siguiente linea:
 200 transaccion exitosa ctualizacion, eliminacion obtencion de datos
 
 201 creacion exitosa
+```
 
-// recursos
-
+# Recursos
 
 
 Como medida de seguridad todo recurso debe hacer uso del parámetro &quot;token&quot; el cual es una llave privada que permitirá su ejecución.
 
+
 | USER |
-| --- |
 | Recurso | POST | PUT | GET | DELETE |
 | /users/ | Nada | Nada | Obtiene los datos de todos los usuarios | nada |
 | /users/myusername | Crea un nuevo usuario | nada | Obtiene los datos del usuario unespecifico | Elimina el usuario |
@@ -126,41 +128,40 @@ Como medida de seguridad todo recurso debe hacer uso del parámetro &quot;token&
 
 Petición get para obtener un usuario por su username
 
-server\_urlt:server\_port/users/username/?token=123456
+`server\_urlt:server\_port/users/username/?token=123456`
 
 petición get para obtener todos los datos del usuarios
 
-server\_urlt:server\_port/users/?token=123456
+`server\_urlt:server\_port/users/?token=123456`
 
 petición post para crear un usuarios, admin y active por defecto son falsos
 
-server\_urlt:server\_port/users/username/?token=123456&amp;admin=true&amp;active=true
+`server\_urlt:server\_port/users/username/?token=123456&amp;admin=true&amp;active=true`
 
 petición delete para eliminar un usuario por su nombre
 
-server\_urlt:server\_port/users/username/?token=123456
+`server\_urlt:server\_port/users/username/?token=123456`
 
 
 
 | LAMP |
-| --- |
 | Recurso | POST | PUT | GET | DELETE |
 | /lamps/ | Crea una lampara, se esperan los parámetros a guardar | Nada | Obtiene los datos de todas las lamparas | nada |
 | /lamps/identificador | nada | Actualiza una lampara, se esperan los parámetros a actualizar | Obtiene los datos de una lampara especifica. | Elimina una lampara |
 
 Petición get para obtener una lampara por su identifier
 
-server\_urlt:server\_port/lamps/identifier/?token=123456
+`server\_urlt:server\_port/lamps/identifier/?token=123456`
 
 petición get para obtener todos los datos de las lamparas
 
-server\_urlt:server\_port/lamps/?token=123456
+`server\_urlt:server\_port/lamps/?token=123456`
 
 petición post para crear unalampara admin y active por defecto son falsos
 
-server\_urlt:server\_port/lamps/username/?token=123456&amp;identifier=012&amp;name=lamparita1&amp;location=LatLong&amp;user\_name=yulian
+`server\_urlt:server\_port/lamps/username/?token=123456&amp;identifier=012&amp;name=lamparita1&amp;location=LatLong&amp;user\_name=yulian`
 
 petición delete para eliminar un usuario por su nombre
 
-server\_urlt:server\_port/users/username/?token=123456
+`server\_urlt:server\_port/users/username/?token=123456`
 
